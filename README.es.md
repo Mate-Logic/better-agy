@@ -80,17 +80,17 @@ Abrí el sitio, elegí los plugins, tocá **Copiar prompt de instalación** y pe
 
 1. Creá `plugins/<nombre>/` con un `plugin.json`, un `README.md` (y opcionalmente `README.es.md`) y sus componentes (`skills/<skill>/SKILL.md`, `agents/`, `rules/`, `mcp_config.json`, `hooks.json`). Mirá [Build plugins](https://antigravity.google/docs/build-plugins).
 2. Validalo: `agy plugin validate --strict plugins/<nombre>`.
-3. Opcional: agregá una demo de terminal en `src/components/demos/<nombre>.astro`, registrala en `src/components/Home.astro`, y sumá su descripción en español en `src/i18n/ui.ts` (`pluginCopy.es`).
+3. Opcional: agregá una demo de terminal en `web/src/components/demos/<nombre>.astro`, registrala en `web/src/components/Home.astro`, y sumá su descripción en español en `web/src/i18n/ui.ts` (`pluginCopy.es`).
 
 ## Sitio
 
-Hecho con [Astro](https://astro.build). Inglés en `/`, español en `/es/`; los textos están en `src/i18n/ui.ts`.
+Vive en `web/`; corré los comandos de abajo desde ahí. Hecho con [Astro](https://astro.build). Inglés en `/`, español en `/es/`; los textos están en `web/src/i18n/ui.ts`.
 
 | Comando | Acción |
 | --- | --- |
 | `bun install` | Instala las dependencias |
 | `bun run dev` | Servidor de desarrollo en `localhost:4321` |
-| `bun run build` | Compila en `./dist/` |
+| `bun run build` | Compila en `web/dist/` |
 
 ## Legal
 

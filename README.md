@@ -80,22 +80,22 @@ Open the site, pick the plugins you want, click **Copy install prompt**, and pas
 
 1. Create `plugins/<name>/` with a `plugin.json`, a `README.md` and its components (`skills/<skill>/SKILL.md`, `agents/`, `rules/`, `mcp_config.json`, `hooks.json`). See [Build plugins](https://antigravity.google/docs/build-plugins).
 2. Validate it: `agy plugin validate --strict plugins/<name>`.
-3. Optionally add a terminal demo at `src/components/demos/<name>.astro` and register it in `src/components/Home.astro`, add its Spanish description to `pluginCopy.es` in `src/i18n/ui.ts`; set its position in `ORDER` in `src/site.ts`.
+3. Optionally add a terminal demo at `web/src/components/demos/<name>.astro` and register it in `web/src/components/Home.astro`, add its Spanish description to `pluginCopy.es` in `web/src/i18n/ui.ts`; set its position in `ORDER` in `web/src/site.ts`.
 
 The site reads `plugins/` at build time: the docs panel renders each README and the source panel lists every file.
 
 ## Site
 
-Built with [Astro](https://astro.build). English at `/`, Spanish at `/es/`; the copy lives in `src/i18n/ui.ts`.
+Lives in `web/`; run the commands below from there. Built with [Astro](https://astro.build). English at `/`, Spanish at `/es/`; the copy lives in `web/src/i18n/ui.ts`.
 
 | Command | Action |
 | --- | --- |
 | `bun install` | Install dependencies |
 | `bun run dev` | Dev server at `localhost:4321` |
-| `bun run build` | Build to `./dist/` |
+| `bun run build` | Build to `web/dist/` |
 | `bun run preview` | Preview the build |
 
-Repository URL, domain and credits live in `src/site.ts`.
+Repository URL, domain and credits live in `web/src/site.ts`.
 
 ## Legal
 

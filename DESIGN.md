@@ -332,7 +332,7 @@ Authored line icons on a 24px grid: stroke only, 1.5 wide, round caps and joins,
 
 ### Antigravity Mark
 
-The official Antigravity "A" (`public/brand/antigravity-mark.svg`, the full-colour icon from https://antigravity.google/press/, unmodified; a trademark of Google LLC) appears only as a "Made for Google Antigravity" reference, never as this project's own logo: large in the hero (124px, floating over its own ellipse shadow, lifting off on click while the particle ring swells), and small inside the "Made for" pill in the hero and the footer. The project's own mark stays the pixel glyph in the nav. Every page that shows it carries the trademark and non-affiliation notice in the footer.
+The official Antigravity "A" (`public/brand/antigravity-mark.svg`, the full-colour icon from https://antigravity.google/press/, unmodified; a trademark of Google LLC) appears only as a "Made for Google Antigravity" reference, never as this project's own logo: large in the hero (124px, floating over its own ellipse shadow, lifting off on click while the particle ring swells), and small inside the "Made for" pill in the hero and the footer. The nav carries the official pixel Antigravity CLI logo (`public/brand/antigravity-cli.svg`, also the favicon) next to the better-agy name. Every page that shows it carries the trademark and non-affiliation notice in the footer.
 
 ### Reader Drawer
 A right-side sheet up to 680px wide, sliding in over 0.5s on the house ease, with Docs and Source tabs underlined in ink, rendered README (links in link blue) and collapsible file cards.

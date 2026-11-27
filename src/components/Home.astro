@@ -3,7 +3,6 @@ import '@fontsource-variable/google-sans-flex'
 import '@fontsource-variable/google-sans-code'
 import '../styles/global.css'
 import { plugins, pluginsUpdated } from '../lib/plugins'
-import { glyphPath } from '../lib/glyph'
 import { icon } from '../lib/icons'
 import { REPO, SITE_URL, AUTHOR, CREDIT, INSTALL_SCRIPT, INSTALL_SCRIPT_WIN, COMMANDS, FEATURED, SHOWCASE } from '../site'
 import { ui, pluginCopy, LANGS, path, relPath, type Lang } from '../i18n/ui'
@@ -18,7 +17,6 @@ const { lang } = Astro.props
 const t = ui[lang]
 const demos: Record<string, any> = { commit: CommitDemo, review: ReviewDemo, handoff: HandoffDemo, 'context-meter': ContextDemo }
 const base = (import.meta.env.BASE_URL || '/').replace(/\/$/, '')
-const glyph = glyphPath()
 const updated = pluginsUpdated()
 const data = { repo: REPO, installScript: INSTALL_SCRIPT, installScriptWin: INSTALL_SCRIPT_WIN, plugins: plugins.map(p => ({ name: p.name, displayName: p.displayName })) }
 const countLabel = (c: Record<string, number>) => (Object.keys(t.counts) as (keyof typeof t.counts)[])
@@ -59,20 +57,12 @@ const other = (Object.keys(LANGS) as Lang[]).find(l => l !== lang)!
   <script is:inline>if (sessionStorage.getItem('ba-announce') === 'off') document.documentElement.classList.add('no-announce')</script>
 </head>
 <body>
-  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
-    <defs>
-      <linearGradient id="ag-grad" x1="0" y1="0" x2="12" y2="10" gradientUnits="userSpaceOnUse">
-        <stop offset="0" stop-color="#4285f4" /><stop offset=".38" stop-color="#34a853" /><stop offset=".68" stop-color="#fbbc04" /><stop offset="1" stop-color="#ea4335" />
-      </linearGradient>
-    </defs>
-  </svg>
-
   <a class="skip" href="#main">{lang === 'es' ? 'Saltar al contenido' : 'Skip to content'}</a>
 
   <header class="top">
     <nav class="nav" aria-label="Main">
       <a class="brand" href={path(lang)}>
-        <svg class="brand-glyph" viewBox="0 0 12 10" aria-hidden="true"><path fill="url(#ag-grad)" d={glyph} /></svg>
+        <img class="brand-glyph" src={`${base}/brand/antigravity-cli.svg`} alt="" width="24" height="20" />
         <span>better-agy</span>
       </a>
       <ul class="nav-links">

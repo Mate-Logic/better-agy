@@ -119,7 +119,7 @@ html { scrollbar-color: var(--c3) transparent; }
 .top { position: sticky; top: 0; z-index: 10; background: var(--bg); }
 .nav { display: flex; align-items: center; gap: 28px; height: 56px; padding-inline: var(--gutter); border-bottom: 1px solid var(--line-2); }
 .brand { display: inline-flex; align-items: center; gap: 9px; font-size: 18.5px; font-weight: 500; letter-spacing: -.01em; text-decoration: none; }
-.brand-glyph { width: 22px; height: auto; display: block; }
+.brand-glyph { width: 26px; height: auto; display: block; image-rendering: pixelated; }
 .nav-links { display: flex; gap: 4px; list-style: none; margin: 0 0 0 12px; padding: 0; }
 .nav-links a { display: block; padding: 7px 14px; border-radius: 999px; font-size: 15.5px; color: var(--ink-2); text-decoration: none; transition: background-color .2s, color .2s; }
 .nav-links a:hover { background: var(--c2); color: var(--ink); }

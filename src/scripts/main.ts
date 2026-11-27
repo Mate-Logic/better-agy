@@ -7,7 +7,7 @@ import { ui, type Lang } from '../i18n/ui'
 const lang = (document.documentElement.lang in ui ? document.documentElement.lang : 'en') as Lang
 const t = ui[lang]
 
-interface SiteData { repo: string, plugins: { name: string, displayName: string }[] }
+interface SiteData { repo: string, installScript: string, installScriptWin: string, plugins: { name: string, displayName: string }[] }
 const data: SiteData = JSON.parse($('#site-data').textContent || '{}')
 
 // ---------- toast ----------
@@ -35,13 +35,27 @@ async function copy (text: string): Promise<boolean> {
   return ok
 }
 
-// ---------- the install prompt ----------
+// ---------- the install prompt & quick CLI command ----------
+let currentOs: 'unix' | 'win' = /Windows/i.test(navigator.userAgent) ? 'win' : 'unix'
+const osTabs = $$<HTMLButtonElement>('.os-tab')
 const buildPrompt = (names: string[]) => t.client.prompt(data.repo, names)
+const buildCli = (names: string[]) => {
+  if (currentOs === 'win') {
+    return names.length === picks.length
+      ? `irm ${data.installScriptWin} | iex`
+      : `$env:PLUGINS="${names.join(' ')}"; irm ${data.installScriptWin} | iex`
+  }
+  return names.length === picks.length
+    ? `curl -fsSL ${data.installScript} | bash`
+    : `curl -fsSL ${data.installScript} | bash -s -- ${names.join(' ')}`
+}
 
 const picks = $$<HTMLButtonElement>('.pick')
 const countEl = $('#picks-count')
 const allBtn = $<HTMLButtonElement>('#picks-all')
 const copyBtn = $<HTMLButtonElement>('#copy-prompt')
+const copyCliBtn = $<HTMLButtonElement>('#copy-cli')
+const cliCmdEl = $('#cli-cmd')
 const promptEl = $('#prompt')
 const picked = () => picks.filter(b => b.getAttribute('aria-pressed') === 'true').map(b => b.dataset.plugin!)
 
@@ -50,8 +64,15 @@ function refresh () {
   countEl.textContent = `${names.length} ${t.of} ${picks.length}`
   allBtn.textContent = names.length === picks.length ? t.none : t.all
   copyBtn.disabled = names.length === 0
+  copyCliBtn.disabled = names.length === 0
   promptEl.textContent = names.length ? buildPrompt(names) : t.pickOne
+  cliCmdEl.textContent = names.length ? buildCli(names) : t.pickOne
+  osTabs.forEach(tab => tab.setAttribute('aria-selected', String(tab.dataset.os === currentOs)))
 }
+osTabs.forEach(tab => tab.addEventListener('click', () => {
+  currentOs = (tab.dataset.os === 'win' ? 'win' : 'unix')
+  refresh()
+}))
 picks.forEach(b => b.addEventListener('click', () => {
   b.setAttribute('aria-pressed', String(b.getAttribute('aria-pressed') !== 'true'))
   refresh()
@@ -65,6 +86,11 @@ copyBtn.addEventListener('click', async () => {
   const names = picked()
   if (!names.length) return
   say(await copy(buildPrompt(names)) ? t.client.copied(names.length) : t.client.copyFailed)
+})
+copyCliBtn.addEventListener('click', async () => {
+  const names = picked()
+  if (!names.length) return
+  say(await copy(buildCli(names)) ? t.client.copiedCli(names.length) : t.client.copyFailed)
 })
 $$<HTMLButtonElement>('[data-install]').forEach(b => b.addEventListener('click', async () => {
   const name = b.dataset.install!

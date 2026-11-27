@@ -3,7 +3,7 @@ import '@fontsource-variable/google-sans-code'
 import '../styles/global.css'
 import { plugins, pluginsUpdated } from '../lib/plugins'
 import { glyphPath } from '../lib/glyph'
-import { REPO, SITE_URL, AUTHOR, CREDIT } from '../site'
+import { REPO, SITE_URL, AUTHOR, CREDIT, INSTALL_SCRIPT, INSTALL_SCRIPT_WIN } from '../site'
 import { ui, pluginCopy, LANGS, path, type Lang } from '../i18n/ui'
 import CommitDemo from './demos/commit.astro'
 import ReviewDemo from './demos/review.astro'
@@ -15,7 +15,7 @@ const t = ui[lang]
 const demos: Record<string, any> = { commit: CommitDemo, review: ReviewDemo, handoff: HandoffDemo }
 const glyph = glyphPath()
 const updated = pluginsUpdated()
-const data = { repo: REPO, plugins: plugins.map(p => ({ name: p.name, displayName: p.displayName })) }
+const data = { repo: REPO, installScript: INSTALL_SCRIPT, installScriptWin: INSTALL_SCRIPT_WIN, plugins: plugins.map(p => ({ name: p.name, displayName: p.displayName })) }
 const countLabel = (c: Record<string, number>) => (Object.keys(t.counts) as (keyof typeof t.counts)[])
   .filter(k => c[k]).map(k => `${c[k]} ${t.counts[k][c[k] > 1 ? 1 : 0]}`).join(', ')
 // The credit sentence, cut where the project and the author's name go so both can be links.
@@ -77,8 +77,20 @@ const [creditMid, creditEnd] = creditAfter.split('%N%')
         </ul>
         <div class="cta">
           <button type="button" class="primary" id="copy-prompt">{t.copy}</button>
+          <button type="button" class="secondary" id="copy-cli">{t.copyCli}</button>
           <span class="note">{t.note[0]} <code>agy</code>{t.note[1]}</span>
         </div>
+        <div class="os-tabs" role="tablist" aria-label="Operating system">
+          <button type="button" role="tab" class="os-tab" data-os="unix" aria-selected="true">{t.osUnix}</button>
+          <button type="button" role="tab" class="os-tab" data-os="win" aria-selected="false">{t.osWin}</button>
+        </div>
+        <pre class="cli-preview" id="cli-cmd"></pre>
+        <details>
+          <summary>{t.guideTitle}</summary>
+          <ol class="guide-list">
+            {t.guideSteps.map(step => <li>{step}</li>)}
+          </ol>
+        </details>
         <details>
           <summary>{t.whatCopies}</summary>
           <pre class="preview" id="prompt"></pre>

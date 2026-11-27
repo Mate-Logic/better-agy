@@ -15,7 +15,23 @@ export const CREDIT = {
 }
 
 // The order plugins appear in; plugins not listed here follow, alphabetically.
-export const ORDER = ['commit', 'review', 'handoff']
+export const ORDER = [
+  'commit',
+  'review',
+  'handoff',
+  'time-machine',
+  'after',
+  'think-hard',
+  'fast-turn',
+  'context-meter',
+  'token-meter',
+  'narrator',
+  'quick-peek',
+  'image-preview',
+]
+
+export const INSTALL_SCRIPT = `https://raw.githubusercontent.com/Mate-Logic/betterantigravity/${BRANCH}/install.sh`
+export const INSTALL_SCRIPT_WIN = `https://raw.githubusercontent.com/Mate-Logic/betterantigravity/${BRANCH}/install.ps1`
 
 // The model name the demos show in the status line.
 export const DEMO_MODEL = 'Gemini 3.8 Flash (Medium)'

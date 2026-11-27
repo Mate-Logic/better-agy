@@ -76,6 +76,16 @@ try {
     & agy plugin install $target
     if ($LASTEXITCODE -eq 0) {
       $Installed++
+      # Sub Meter lives in agy's status line: point settings.json at it.
+      if ($name -eq 'sub-meter') {
+        $py = Get-Command python -ErrorAction SilentlyContinue
+        if (-not $py) { $py = Get-Command py -ErrorAction SilentlyContinue }
+        if ($py) {
+          & $py.Source (Join-Path $target 'scripts\setup.py')
+        } else {
+          Write-Warning "Sub Meter needs Python 3 to draw the status line."
+        }
+      }
     } else {
       Write-Warning "Failed to install $name"
       $Failed++

@@ -10,6 +10,7 @@ Plugins gratis y open source para [Antigravity CLI](https://antigravity.google/p
 
 | Plugin | Qué hace |
 | --- | --- |
+| [`sub-meter`](plugins/sub-meter/README.es.md) | El uso de tu plan en la status line de agy: la ventana de 5 horas y la semanal como una barra, con el tiempo hasta el reinicio. Necesita Python 3. |
 | [`commit`](plugins/commit/README.es.md) | `/commit` divide tus cambios en Conventional Commits y después hace push, solo commit o los pasa a una rama nueva. |
 | [`review`](plugins/review/README.es.md) | `/review` lee tu diff buscando bugs reales, cada uno con archivo, línea y el caso que lo rompe. |
 | [`handoff`](plugins/handoff/README.es.md) | `/handoff` anota en `.agents/handoff.md` cómo quedó la sesión, para que la próxima retome con un solo prompt. |
@@ -25,12 +26,12 @@ Plugins gratis y open source para [Antigravity CLI](https://antigravity.google/p
 
 ### Instalación rápida y tutorial (Linux, macOS y Windows)
 
-**Requisitos:** [Antigravity CLI (`agy`)](https://antigravity.google/product/antigravity-cli), `git` y **Node.js 18+** (necesario para los plugins con hooks y scripts).
+**Requisitos:** [Antigravity CLI (`agy`)](https://antigravity.google/product/antigravity-cli), `git`, **Node.js 18+** (necesario para los plugins con hooks y scripts) y **Python 3** para Sub Meter.
 
 #### Linux / macOS
 
 ```bash
-# Instalar los 12 plugins
+# Instalar los 13 plugins
 curl -fsSL https://raw.githubusercontent.com/Mate-Logic/betterantigravity/main/install.sh | bash
 
 # O instalar solo algunos
@@ -40,7 +41,7 @@ curl -fsSL https://raw.githubusercontent.com/Mate-Logic/betterantigravity/main/i
 #### Windows (PowerShell)
 
 ```powershell
-# Instalar los 12 plugins
+# Instalar los 13 plugins
 irm https://raw.githubusercontent.com/Mate-Logic/betterantigravity/main/install.ps1 | iex
 
 # O instalar solo algunos
@@ -66,6 +67,7 @@ Abrí el sitio, elegí los plugins, tocá **Copiar prompt de instalación** y pe
    - `/after <tarea>` — Encola tareas de seguimiento automáticamente
    - `+ <prompt>` / `_ <prompt>` — Modo análisis profundo o modo ultra rápido
    - `/context` y `/tokens` — Medidores de ventana de contexto y tokens
+   - `/sub-meter` — Uso del plan (5 horas y semanal) en la status line; el instalador lo deja activo
    - `/narrator on` — Resúmenes hablados al terminar cada turno (Windows SAPI, macOS `say`, Linux `spd-say`/`espeak-ng`)
    - `/peek <ruta>` y `/preview <imagen>` — Previsualización de archivos/carpetas e imágenes (`--open` abre Explorer/Finder/explorador)
 

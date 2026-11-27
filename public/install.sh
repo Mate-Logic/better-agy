@@ -87,6 +87,14 @@ for name in "${SELECTED[@]}"; do
   echo "-> Installing ${name}..."
   if agy plugin install "${target}"; then
     INSTALLED=$((INSTALLED + 1))
+    # Sub Meter lives in agy's status line: point settings.json at it.
+    if [ "${name}" = "sub-meter" ]; then
+      if command -v python3 >/dev/null 2>&1; then
+        python3 "${target}/scripts/setup.py" || echo "! Sub Meter: run /sub-meter in agy to turn it on." >&2
+      else
+        echo "! Sub Meter needs Python 3 to draw the status line." >&2
+      fi
+    fi
   else
     echo "x Failed to install ${name}" >&2
     FAILED=$((FAILED + 1))

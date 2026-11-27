@@ -10,6 +10,7 @@ Free, open-source plugins for [Antigravity CLI](https://antigravity.google/produ
 
 | Plugin | What it does |
 | --- | --- |
+| [`sub-meter`](plugins/sub-meter) | Your plan usage in agy's status line: the 5-hour and weekly windows as a bar, with the time until each resets. Needs Python 3. |
 | [`commit`](plugins/commit) | `/commit` splits your changes into Conventional Commits, then pushes, commits only or moves them to a new branch. |
 | [`review`](plugins/review) | `/review` reads your diff for real bugs, each with file, line and the input that breaks it. |
 | [`handoff`](plugins/handoff) | `/handoff` writes where the session stands to `.agents/handoff.md`, so the next one picks up in one prompt. |
@@ -25,12 +26,12 @@ Free, open-source plugins for [Antigravity CLI](https://antigravity.google/produ
 
 ### Quick install (Linux, macOS & Windows)
 
-**Requirements:** [Antigravity CLI (`agy`)](https://antigravity.google/product/antigravity-cli), `git`, and **Node.js 18+** (needed for hook/script plugins).
+**Requirements:** [Antigravity CLI (`agy`)](https://antigravity.google/product/antigravity-cli), `git`, **Node.js 18+** (needed for hook/script plugins) and **Python 3** for Sub Meter.
 
 #### Linux / macOS
 
 ```bash
-# Install all 12 plugins
+# Install all 13 plugins
 curl -fsSL https://raw.githubusercontent.com/Mate-Logic/betterantigravity/main/install.sh | bash
 
 # Or install only specific plugins
@@ -40,7 +41,7 @@ curl -fsSL https://raw.githubusercontent.com/Mate-Logic/betterantigravity/main/i
 #### Windows (PowerShell)
 
 ```powershell
-# Install all 12 plugins
+# Install all 13 plugins
 irm https://raw.githubusercontent.com/Mate-Logic/betterantigravity/main/install.ps1 | iex
 
 # Or install only specific plugins
@@ -66,6 +67,7 @@ Open the site, pick the plugins you want, click **Copy install prompt**, and pas
    - `/after <task>` — Queue follow-up tasks automatically
    - `+ <prompt>` / `_ <prompt>` — Deep reasoning mode or ultra-fast concise mode
    - `/context` & `/tokens` — Context window and token usage meters
+   - `/sub-meter` — Plan usage (5-hour and weekly) in the status line; the installer turns it on
    - `/narrator on` — Spoken turn summaries (Windows SAPI, macOS `say`, Linux `spd-say`/`espeak-ng`)
    - `/peek <path>` & `/preview <image>` — File/folder and image previews (`--open` opens Explorer/Finder/file manager)
 

@@ -1,0 +1,24 @@
+{
+  "$schema": "https://antigravity.google/schemas/v1/plugin.json",
+  "name": "sub-meter",
+  "displayName": "Sub Meter",
+  "version": "0.1.0",
+  "description": "Your plan usage in the status line: the 5-hour and weekly windows as a bar, with the time until each resets. Yellow from 75%, red from 90%.",
+  "suggestedPrompts": [
+    "/sub-meter"
+  ],
+  "author": {
+    "name": "MateLogic (adapted from midudev/better-claude)",
+    "url": "https://mate-logic.tech/"
+  },
+  "homepage": "https://github.com/Mate-Logic/betterantigravity/tree/main/plugins/sub-meter",
+  "repository": "https://github.com/Mate-Logic/betterantigravity",
+  "license": "MIT",
+  "keywords": [
+    "quota",
+    "usage",
+    "statusline",
+    "meter",
+    "limits"
+  ]
+}

@@ -25,7 +25,7 @@ Visitors read on desktop next to a terminal, or on a phone after seeing a link. 
 ## Capabilities and Constraints
 
 - 13 plugins under `plugins/`: sub-meter, commit, review, handoff, time-machine, after, think-hard, fast-turn, context-meter, token-meter, narrator, quick-peek, image-preview. The site reads them at build time.
-- Static Astro site on GitHub Pages under `/better-agy`, English at `/` and Spanish at `/es/` (voseo). Every new string needs both.
+- Static Astro site on GitHub Pages at https://better-agy.mate-logic.tech, English at `/` and Spanish at `/es/` (voseo). Every new string needs both.
 - Pick-what-to-install, OS selector, copy prompt and copy command must keep working.
 
 ## Brand Commitments

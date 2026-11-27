@@ -3,8 +3,7 @@ import { defineConfig } from 'astro/config';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://mate-logic.github.io',
-  base: '/better-agy',
+  site: 'https://better-agy.mate-logic.tech',
   i18n: {
     locales: ['en', 'es'],
     defaultLocale: 'en',

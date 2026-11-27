@@ -1,7 +1,7 @@
 // Everything about where this site and its plugins live, in one place.
 export const REPO = 'https://github.com/Mate-Logic/better-agy'
 export const BRANCH = 'main'
-export const SITE_URL = 'https://mate-logic.github.io/better-agy'
+export const SITE_URL = 'https://better-agy.mate-logic.tech'
 export const AUTHOR = { name: 'MateLogic', handle: 'Mate-Logic', url: 'https://github.com/Mate-Logic', site: 'https://mate-logic.tech/' }
 
 // The original idea and design: better-claude, by midudev.

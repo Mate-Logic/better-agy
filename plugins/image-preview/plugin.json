@@ -1,0 +1,24 @@
+{
+  "$schema": "https://antigravity.google/schemas/v1/plugin.json",
+  "name": "image-preview",
+  "displayName": "Image Preview",
+  "version": "0.2.4",
+  "description": "Preview images inline in Ghostty or Kitty terminals with /preview, inspect metadata, or open them in your system viewer.",
+  "suggestedPrompts": [
+    "/preview screenshot.png",
+    "/preview diagram.png --open"
+  ],
+  "author": {
+    "name": "MateLogic (adapted from midudev/better-claude)",
+    "url": "https://mate-logic.tech/"
+  },
+  "homepage": "https://github.com/Mate-Logic/betterantigravity/tree/main/plugins/image-preview",
+  "repository": "https://github.com/Mate-Logic/betterantigravity",
+  "license": "MIT",
+  "keywords": [
+    "image",
+    "preview",
+    "ghostty",
+    "kitty"
+  ]
+}

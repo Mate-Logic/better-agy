@@ -8,13 +8,19 @@ Type `/review` and the agent reads your changes like a strict reviewer. It looks
 
 Every finding comes with its file and line, how severe it is and the concrete input that breaks it. It does not edit anything unless you ask it to fix a finding.
 
-## Install
+## Quick install
+
+**Linux / macOS:**
 
 ```bash
-git clone --depth 1 https://github.com/Mate-Logic/betterantigravity /tmp/betterantigravity
-agy plugin install /tmp/betterantigravity/plugins/review
+curl -fsSL https://raw.githubusercontent.com/Mate-Logic/betterantigravity/main/install.sh | bash -s -- review
 ```
 
+**Windows (PowerShell):**
+
+```powershell
+$env:PLUGINS="review"; irm https://raw.githubusercontent.com/Mate-Logic/betterantigravity/main/install.ps1 | iex
+```
 ## Use
 
 ```text

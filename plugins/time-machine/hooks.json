@@ -1,0 +1,18 @@
+{
+  "time-machine": {
+    "PreInvocation": [
+      {
+        "type": "command",
+        "command": "node ./scripts/hook.mjs",
+        "timeout": 20
+      }
+    ],
+    "Stop": [
+      {
+        "type": "command",
+        "command": "node ./scripts/hook.mjs",
+        "timeout": 20
+      }
+    ]
+  }
+}

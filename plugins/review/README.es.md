@@ -8,13 +8,19 @@ Escribí `/review` y el agente lee tus cambios como un revisor exigente. Busca b
 
 Cada hallazgo trae su archivo y línea, qué tan grave es y el caso concreto que lo rompe. No edita nada salvo que le pidas que arregle un hallazgo.
 
-## Instalación
+## Instalación rápida
+
+**Linux / macOS:**
 
 ```bash
-git clone --depth 1 https://github.com/Mate-Logic/betterantigravity /tmp/betterantigravity
-agy plugin install /tmp/betterantigravity/plugins/review
+curl -fsSL https://raw.githubusercontent.com/Mate-Logic/betterantigravity/main/install.sh | bash -s -- review
 ```
 
+**Windows (PowerShell):**
+
+```powershell
+$env:PLUGINS="review"; irm https://raw.githubusercontent.com/Mate-Logic/betterantigravity/main/install.ps1 | iex
+```
 ## Uso
 
 ```text

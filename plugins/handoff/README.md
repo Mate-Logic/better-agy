@@ -10,13 +10,19 @@ Long sessions end: the context fills up, the day ends, a teammate takes over. Ty
 
 In a new session, say `continue from the handoff` and the agent reads the note, checks it against the repository and carries on.
 
-## Install
+## Quick install
+
+**Linux / macOS:**
 
 ```bash
-git clone --depth 1 https://github.com/Mate-Logic/betterantigravity /tmp/betterantigravity
-agy plugin install /tmp/betterantigravity/plugins/handoff
+curl -fsSL https://raw.githubusercontent.com/Mate-Logic/betterantigravity/main/install.sh | bash -s -- handoff
 ```
 
+**Windows (PowerShell):**
+
+```powershell
+$env:PLUGINS="handoff"; irm https://raw.githubusercontent.com/Mate-Logic/betterantigravity/main/install.ps1 | iex
+```
 ## Use
 
 ```text

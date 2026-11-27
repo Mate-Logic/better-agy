@@ -1,0 +1,23 @@
+{
+  "$schema": "https://antigravity.google/schemas/v1/plugin.json",
+  "name": "think-hard",
+  "displayName": "Think Hard (+)",
+  "version": "0.1.0",
+  "description": "Prefix any prompt with + to trigger deep analytical rigor, edge-case verification, and double-checked answers for that turn.",
+  "suggestedPrompts": [
+    "+ review the concurrency edge cases in this worker"
+  ],
+  "author": {
+    "name": "MateLogic (adapted from midudev/better-claude)",
+    "url": "https://mate-logic.tech/"
+  },
+  "homepage": "https://github.com/Mate-Logic/betterantigravity/tree/main/plugins/think-hard",
+  "repository": "https://github.com/Mate-Logic/betterantigravity",
+  "license": "MIT",
+  "keywords": [
+    "reasoning",
+    "think-hard",
+    "effort",
+    "hooks"
+  ]
+}

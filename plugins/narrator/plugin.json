@@ -1,0 +1,24 @@
+{
+  "$schema": "https://antigravity.google/schemas/v1/plugin.json",
+  "name": "narrator",
+  "displayName": "Narrator",
+  "version": "0.7.0",
+  "description": "Toggle /narrator to hear spoken summaries after each completed turn using your system's free TTS.",
+  "suggestedPrompts": [
+    "/narrator on",
+    "/narrator status"
+  ],
+  "author": {
+    "name": "MateLogic (adapted from midudev/better-claude)",
+    "url": "https://mate-logic.tech/"
+  },
+  "homepage": "https://github.com/Mate-Logic/betterantigravity/tree/main/plugins/narrator",
+  "repository": "https://github.com/Mate-Logic/betterantigravity",
+  "license": "MIT",
+  "keywords": [
+    "tts",
+    "voice",
+    "narrator",
+    "audio"
+  ]
+}

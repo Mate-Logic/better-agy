@@ -1,0 +1,11 @@
+{
+  "think-hard": {
+    "PreInvocation": [
+      {
+        "type": "command",
+        "command": "node ./scripts/hook.mjs",
+        "timeout": 5
+      }
+    ]
+  }
+}

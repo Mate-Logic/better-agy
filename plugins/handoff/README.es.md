@@ -10,13 +10,19 @@ Las sesiones largas terminan: se llena el contexto, se termina el día, otra per
 
 En una sesión nueva, decí `continue from the handoff` (o «seguí desde el handoff») y el agente lee la nota, la compara con el repositorio y sigue.
 
-## Instalación
+## Instalación rápida
+
+**Linux / macOS:**
 
 ```bash
-git clone --depth 1 https://github.com/Mate-Logic/betterantigravity /tmp/betterantigravity
-agy plugin install /tmp/betterantigravity/plugins/handoff
+curl -fsSL https://raw.githubusercontent.com/Mate-Logic/betterantigravity/main/install.sh | bash -s -- handoff
 ```
 
+**Windows (PowerShell):**
+
+```powershell
+$env:PLUGINS="handoff"; irm https://raw.githubusercontent.com/Mate-Logic/betterantigravity/main/install.ps1 | iex
+```
 ## Uso
 
 ```text

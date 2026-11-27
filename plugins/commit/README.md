@@ -14,13 +14,19 @@ Before it touches anything it asks how you want it done:
 - Add AI attribution or `Co-Authored-By` lines.
 - Amend, rebase, force-push or skip your hooks (`--no-verify`).
 
-## Install
+## Quick install
+
+**Linux / macOS:**
 
 ```bash
-git clone --depth 1 https://github.com/Mate-Logic/betterantigravity /tmp/betterantigravity
-agy plugin install /tmp/betterantigravity/plugins/commit
+curl -fsSL https://raw.githubusercontent.com/Mate-Logic/betterantigravity/main/install.sh | bash -s -- commit
 ```
 
+**Windows (PowerShell):**
+
+```powershell
+$env:PLUGINS="commit"; irm https://raw.githubusercontent.com/Mate-Logic/betterantigravity/main/install.ps1 | iex
+```
 ## Use
 
 ```text

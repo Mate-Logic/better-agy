@@ -1,0 +1,22 @@
+{
+  "$schema": "https://antigravity.google/schemas/v1/plugin.json",
+  "name": "fast-turn",
+  "displayName": "Fast Turn (_)",
+  "version": "0.2.0",
+  "description": "Prefix any prompt with _ for an ultra-fast, concise turn with minimal tool calls (adapted from better-claude's use-haiku).",
+  "suggestedPrompts": [
+    "_ what port does the dev server use?"
+  ],
+  "author": {
+    "name": "MateLogic (adapted from midudev/better-claude)",
+    "url": "https://mate-logic.tech/"
+  },
+  "homepage": "https://github.com/Mate-Logic/betterantigravity/tree/main/plugins/fast-turn",
+  "repository": "https://github.com/Mate-Logic/betterantigravity",
+  "license": "MIT",
+  "keywords": [
+    "fast",
+    "concise",
+    "hooks"
+  ]
+}

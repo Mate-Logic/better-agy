@@ -9,4 +9,6 @@ export default defineConfig({
     defaultLocale: 'en',
     routing: { prefixDefaultLocale: false },
   },
+  // The site reads ../plugins at build time.
+  vite: { server: { fs: { allow: ['..'] } } },
 });

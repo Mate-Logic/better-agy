@@ -2,8 +2,8 @@ import { marked } from 'marked'
 import { execSync } from 'node:child_process'
 import { REPO, BRANCH, ORDER } from '../site'
 
-// Every file under /plugins, as text, at build time.
-const raw = import.meta.glob('/plugins/**/*', { query: '?raw', import: 'default', eager: true }) as Record<string, string>
+// Every file under the repo's /plugins (next to web/), as text, at build time.
+const raw = import.meta.glob('../../../plugins/**/*', { query: '?raw', import: 'default', eager: true }) as Record<string, string>
 
 export interface PluginFile { path: string, content: string }
 export interface Plugin {
@@ -22,7 +22,7 @@ export interface Plugin {
 
 const byPlugin = new Map<string, PluginFile[]>()
 for (const [full, content] of Object.entries(raw)) {
-  const m = full.match(/^\/plugins\/([^/]+)\/(.+)$/)
+  const m = full.match(/^(?:\.\.\/)+plugins\/([^/]+)\/(.+)$/)
   if (!m) continue
   const [, name, path] = m
   if (!byPlugin.has(name)) byPlugin.set(name, [])
@@ -70,7 +70,7 @@ export const plugins: Plugin[] = [...byPlugin.entries()]
 // When the plugins last changed, from git; the build time when git has nothing to say.
 export function pluginsUpdated (): string {
   try {
-    const iso = execSync('git log -1 --format=%cI -- plugins', { encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] }).trim()
+    const iso = execSync('git log -1 --format=%cI -- ../plugins', { encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] }).trim()
     if (iso) return iso
   } catch {}
   return new Date().toISOString()

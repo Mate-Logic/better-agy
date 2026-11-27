@@ -37,7 +37,7 @@ Visitors read on desktop next to a terminal, or on a phone after seeing a link. 
 
 ## Evidence on Hand
 
-Real plugin READMEs and sources in `plugins/`; terminal demos in `src/components/demos/`. No users, stars, download counts or testimonials exist: never invent them.
+Real plugin READMEs and sources in `../plugins/` (repo root); terminal demos in `src/components/demos/`. No users, stars, download counts or testimonials exist: never invent them.
 
 ## Product Principles
 

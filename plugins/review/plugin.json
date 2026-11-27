@@ -1,0 +1,23 @@
+{
+  "$schema": "https://antigravity.google/schemas/v1/plugin.json",
+  "name": "review",
+  "displayName": "Review",
+  "version": "0.1.0",
+  "description": "Type /review and the agent reads your diff like a strict reviewer: real bugs first, each with the file, the line and the input that breaks it.",
+  "suggestedPrompts": [
+    "Review my changes",
+    "Review this branch against main"
+  ],
+  "author": {
+    "name": "MateLogic",
+    "url": "https://mate-logic.tech/"
+  },
+  "homepage": "https://github.com/Mate-Logic/betterantigravity/tree/main/plugins/review",
+  "repository": "https://github.com/Mate-Logic/betterantigravity",
+  "license": "MIT",
+  "keywords": [
+    "review",
+    "code-review",
+    "bugs"
+  ]
+}

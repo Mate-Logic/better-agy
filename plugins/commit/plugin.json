@@ -1,0 +1,23 @@
+{
+  "$schema": "https://antigravity.google/schemas/v1/plugin.json",
+  "name": "commit",
+  "displayName": "Commit",
+  "version": "0.1.0",
+  "description": "Type /commit and your changes become Conventional Commits, one per logical group, on the branch you are on. No secrets staged, no AI attribution.",
+  "suggestedPrompts": [
+    "Commit my changes",
+    "Commit my changes on a new branch"
+  ],
+  "author": {
+    "name": "MateLogic",
+    "url": "https://mate-logic.tech/"
+  },
+  "homepage": "https://github.com/Mate-Logic/betterantigravity/tree/main/plugins/commit",
+  "repository": "https://github.com/Mate-Logic/betterantigravity",
+  "license": "MIT",
+  "keywords": [
+    "git",
+    "commit",
+    "conventional-commits"
+  ]
+}

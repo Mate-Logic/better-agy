@@ -1,7 +1,9 @@
 export const LANGS = { en: 'English', es: 'Español' } as const
 export type Lang = keyof typeof LANGS
 
-export const path = (lang: Lang) => (lang === 'en' ? '/' : `/${lang}/`)
+const BASE = (import.meta.env.BASE_URL || '/').replace(/\/$/, '')
+export const relPath = (lang: Lang) => (lang === 'en' ? '/' : `/${lang}/`)
+export const path = (lang: Lang) => `${BASE}${relPath(lang)}`
 
 export const ui = {
   en: {

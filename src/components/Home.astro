@@ -4,7 +4,7 @@ import '../styles/global.css'
 import { plugins, pluginsUpdated } from '../lib/plugins'
 import { glyphPath } from '../lib/glyph'
 import { REPO, SITE_URL, AUTHOR, CREDIT, INSTALL_SCRIPT, INSTALL_SCRIPT_WIN } from '../site'
-import { ui, pluginCopy, LANGS, path, type Lang } from '../i18n/ui'
+import { ui, pluginCopy, LANGS, path, relPath, type Lang } from '../i18n/ui'
 import CommitDemo from './demos/commit.astro'
 import ReviewDemo from './demos/review.astro'
 import HandoffDemo from './demos/handoff.astro'
@@ -13,6 +13,7 @@ interface Props { lang: Lang }
 const { lang } = Astro.props
 const t = ui[lang]
 const demos: Record<string, any> = { commit: CommitDemo, review: ReviewDemo, handoff: HandoffDemo }
+const base = (import.meta.env.BASE_URL || '/').replace(/\/$/, '')
 const glyph = glyphPath()
 const updated = pluginsUpdated()
 const data = { repo: REPO, installScript: INSTALL_SCRIPT, installScriptWin: INSTALL_SCRIPT_WIN, plugins: plugins.map(p => ({ name: p.name, displayName: p.displayName })) }
@@ -29,19 +30,19 @@ const [creditMid, creditEnd] = creditAfter.split('%N%')
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>{t.title}</title>
   <meta name="description" content={t.description} />
-  <link rel="canonical" href={SITE_URL + path(lang)} />
-  {Object.keys(LANGS).map(l => <link rel="alternate" hreflang={l} href={SITE_URL + path(l as Lang)} />)}
+  <link rel="canonical" href={SITE_URL + relPath(lang)} />
+  {Object.keys(LANGS).map(l => <link rel="alternate" hreflang={l} href={SITE_URL + relPath(l as Lang)} />)}
   <link rel="alternate" hreflang="x-default" href={SITE_URL + '/'} />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="better-antigravity" />
   <meta property="og:locale" content={t.ogLocale} />
-  <meta property="og:url" content={SITE_URL + path(lang)} />
+  <meta property="og:url" content={SITE_URL + relPath(lang)} />
   <meta property="og:title" content={t.title} />
   <meta property="og:description" content={t.description} />
   <meta name="twitter:card" content="summary" />
   <meta name="color-scheme" content="dark" />
   <meta name="theme-color" content="#0b0c0f" />
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="icon" type="image/svg+xml" href={`${base}/favicon.svg`} />
   <meta name="generator" content={Astro.generator} />
 </head>
 <body>

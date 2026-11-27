@@ -99,4 +99,4 @@ Repository URL, domain and credits live in `src/site.ts`.
 
 ## Legal
 
-Not affiliated with, endorsed by or sponsored by Google LLC. Antigravity and Gemini are trademarks of Google LLC. Plugins are provided as is, without warranty: install and run them at your own risk. Code under the [MIT License](LICENSE).
+better-antigravity is a non-commercial community project: it makes no money and is not affiliated with, endorsed by or sponsored by Google LLC. Google, Google Antigravity, Antigravity CLI, Gemini and the Antigravity logo are trademarks of Google LLC; the logo on the site only says which product these plugins work with. The MIT License covers this project's code only and grants no rights to Google's trademarks. Plugins are provided as is, without warranty: install and run them at your own risk. Code under the [MIT License](LICENSE).

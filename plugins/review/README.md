@@ -13,13 +13,13 @@ Every finding comes with its file and line, how severe it is and the concrete in
 **Linux / macOS:**
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/Mate-Logic/betterantigravity/main/install.sh | bash -s -- review
+curl -fsSL https://raw.githubusercontent.com/Mate-Logic/better-agy/main/install.sh | bash -s -- review
 ```
 
 **Windows (PowerShell):**
 
 ```powershell
-$env:PLUGINS="review"; irm https://raw.githubusercontent.com/Mate-Logic/betterantigravity/main/install.ps1 | iex
+$env:PLUGINS="review"; irm https://raw.githubusercontent.com/Mate-Logic/better-agy/main/install.ps1 | iex
 ```
 ## Use
 

@@ -1,4 +1,4 @@
-# better-antigravity
+# better-agy
 
 [English](README.md) · **Español**
 
@@ -32,20 +32,20 @@ Plugins gratis y open source para [Antigravity CLI](https://antigravity.google/p
 
 ```bash
 # Instalar los 13 plugins
-curl -fsSL https://raw.githubusercontent.com/Mate-Logic/betterantigravity/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/Mate-Logic/better-agy/main/install.sh | bash
 
 # O instalar solo algunos
-curl -fsSL https://raw.githubusercontent.com/Mate-Logic/betterantigravity/main/install.sh | bash -s -- commit review time-machine
+curl -fsSL https://raw.githubusercontent.com/Mate-Logic/better-agy/main/install.sh | bash -s -- commit review time-machine
 ```
 
 #### Windows (PowerShell)
 
 ```powershell
 # Instalar los 13 plugins
-irm https://raw.githubusercontent.com/Mate-Logic/betterantigravity/main/install.ps1 | iex
+irm https://raw.githubusercontent.com/Mate-Logic/better-agy/main/install.ps1 | iex
 
 # O instalar solo algunos
-$env:PLUGINS="commit review time-machine"; irm https://raw.githubusercontent.com/Mate-Logic/betterantigravity/main/install.ps1 | iex
+$env:PLUGINS="commit review time-machine"; irm https://raw.githubusercontent.com/Mate-Logic/better-agy/main/install.ps1 | iex
 ```
 
 #### O instalá directo desde `agy` (cualquier sistema operativo)
@@ -94,4 +94,4 @@ Hecho con [Astro](https://astro.build). Inglés en `/`, español en `/es/`; los 
 
 ## Legal
 
-better-antigravity es un proyecto de la comunidad sin fines de lucro: no genera ingresos y no está afiliado, respaldado ni patrocinado por Google LLC. Google, Google Antigravity, Antigravity CLI, Gemini y el logo de Antigravity son marcas registradas de Google LLC; el logo del sitio solo indica con qué producto funcionan estos plugins. La Licencia MIT cubre solo el código de este proyecto y no otorga derechos sobre las marcas de Google. Los plugins se ofrecen tal cual, sin garantía. Código bajo la [Licencia MIT](LICENSE).
+better-agy es un proyecto de la comunidad sin fines de lucro: no genera ingresos y no está afiliado, respaldado ni patrocinado por Google LLC. Google, Google Antigravity, Antigravity CLI, Gemini y el logo de Antigravity son marcas registradas de Google LLC; el logo del sitio solo indica con qué producto funcionan estos plugins. La Licencia MIT cubre solo el código de este proyecto y no otorga derechos sobre las marcas de Google. Los plugins se ofrecen tal cual, sin garantía. Código bajo la [Licencia MIT](LICENSE).

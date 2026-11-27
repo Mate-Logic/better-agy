@@ -13,13 +13,13 @@ Cada hallazgo trae su archivo y línea, qué tan grave es y el caso concreto que
 **Linux / macOS:**
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/Mate-Logic/betterantigravity/main/install.sh | bash -s -- review
+curl -fsSL https://raw.githubusercontent.com/Mate-Logic/better-agy/main/install.sh | bash -s -- review
 ```
 
 **Windows (PowerShell):**
 
 ```powershell
-$env:PLUGINS="review"; irm https://raw.githubusercontent.com/Mate-Logic/betterantigravity/main/install.ps1 | iex
+$env:PLUGINS="review"; irm https://raw.githubusercontent.com/Mate-Logic/better-agy/main/install.ps1 | iex
 ```
 ## Uso
 

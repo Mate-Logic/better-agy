@@ -19,11 +19,11 @@ Narración por voz automática al terminar cada turno usando el TTS gratuito del
 **Linux / macOS:**
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/Mate-Logic/betterantigravity/main/install.sh | bash -s -- narrator
+curl -fsSL https://raw.githubusercontent.com/Mate-Logic/better-agy/main/install.sh | bash -s -- narrator
 ```
 
 **Windows (PowerShell):**
 
 ```powershell
-$env:PLUGINS="narrator"; irm https://raw.githubusercontent.com/Mate-Logic/betterantigravity/main/install.ps1 | iex
+$env:PLUGINS="narrator"; irm https://raw.githubusercontent.com/Mate-Logic/better-agy/main/install.ps1 | iex
 ```

@@ -11,8 +11,8 @@
     "name": "MateLogic (adapted from midudev/better-claude)",
     "url": "https://mate-logic.tech/"
   },
-  "homepage": "https://github.com/Mate-Logic/betterantigravity/tree/main/plugins/token-meter",
-  "repository": "https://github.com/Mate-Logic/betterantigravity",
+  "homepage": "https://github.com/Mate-Logic/better-agy/tree/main/plugins/token-meter",
+  "repository": "https://github.com/Mate-Logic/better-agy",
   "license": "MIT",
   "keywords": [
     "tokens",

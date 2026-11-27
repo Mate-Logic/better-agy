@@ -13,11 +13,11 @@ Prefix any prompt with `+` to activate deep analytical rigor for that turn via a
 **Linux / macOS:**
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/Mate-Logic/betterantigravity/main/install.sh | bash -s -- think-hard
+curl -fsSL https://raw.githubusercontent.com/Mate-Logic/better-agy/main/install.sh | bash -s -- think-hard
 ```
 
 **Windows (PowerShell):**
 
 ```powershell
-$env:PLUGINS="think-hard"; irm https://raw.githubusercontent.com/Mate-Logic/betterantigravity/main/install.ps1 | iex
+$env:PLUGINS="think-hard"; irm https://raw.githubusercontent.com/Mate-Logic/better-agy/main/install.ps1 | iex
 ```

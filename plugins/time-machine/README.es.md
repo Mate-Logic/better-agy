@@ -15,11 +15,11 @@ Cada turno que modifica archivos en un repo git genera un snapshot automático e
 **Linux / macOS:**
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/Mate-Logic/betterantigravity/main/install.sh | bash -s -- time-machine
+curl -fsSL https://raw.githubusercontent.com/Mate-Logic/better-agy/main/install.sh | bash -s -- time-machine
 ```
 
 **Windows (PowerShell):**
 
 ```powershell
-$env:PLUGINS="time-machine"; irm https://raw.githubusercontent.com/Mate-Logic/betterantigravity/main/install.ps1 | iex
+$env:PLUGINS="time-machine"; irm https://raw.githubusercontent.com/Mate-Logic/better-agy/main/install.ps1 | iex
 ```

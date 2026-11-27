@@ -14,11 +14,11 @@ Inspeccioná metadatos de imágenes, renderizá PNGs inline en terminales Ghostt
 **Linux / macOS:**
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/Mate-Logic/betterantigravity/main/install.sh | bash -s -- image-preview
+curl -fsSL https://raw.githubusercontent.com/Mate-Logic/better-agy/main/install.sh | bash -s -- image-preview
 ```
 
 **Windows (PowerShell):**
 
 ```powershell
-$env:PLUGINS="image-preview"; irm https://raw.githubusercontent.com/Mate-Logic/betterantigravity/main/install.ps1 | iex
+$env:PLUGINS="image-preview"; irm https://raw.githubusercontent.com/Mate-Logic/better-agy/main/install.ps1 | iex
 ```

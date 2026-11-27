@@ -13,11 +13,11 @@ Track your session's context window fill percentage from `transcript.jsonl`, wit
 **Linux / macOS:**
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/Mate-Logic/betterantigravity/main/install.sh | bash -s -- context-meter
+curl -fsSL https://raw.githubusercontent.com/Mate-Logic/better-agy/main/install.sh | bash -s -- context-meter
 ```
 
 **Windows (PowerShell):**
 
 ```powershell
-$env:PLUGINS="context-meter"; irm https://raw.githubusercontent.com/Mate-Logic/betterantigravity/main/install.ps1 | iex
+$env:PLUGINS="context-meter"; irm https://raw.githubusercontent.com/Mate-Logic/better-agy/main/install.ps1 | iex
 ```

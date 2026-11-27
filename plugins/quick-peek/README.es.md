@@ -14,11 +14,11 @@ Previsualizá archivos y carpetas con metadatos y números de línea, o abrí cu
 **Linux / macOS:**
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/Mate-Logic/betterantigravity/main/install.sh | bash -s -- quick-peek
+curl -fsSL https://raw.githubusercontent.com/Mate-Logic/better-agy/main/install.sh | bash -s -- quick-peek
 ```
 
 **Windows (PowerShell):**
 
 ```powershell
-$env:PLUGINS="quick-peek"; irm https://raw.githubusercontent.com/Mate-Logic/betterantigravity/main/install.ps1 | iex
+$env:PLUGINS="quick-peek"; irm https://raw.githubusercontent.com/Mate-Logic/better-agy/main/install.ps1 | iex
 ```

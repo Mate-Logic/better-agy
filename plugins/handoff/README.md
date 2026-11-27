@@ -15,13 +15,13 @@ In a new session, say `continue from the handoff` and the agent reads the note, 
 **Linux / macOS:**
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/Mate-Logic/betterantigravity/main/install.sh | bash -s -- handoff
+curl -fsSL https://raw.githubusercontent.com/Mate-Logic/better-agy/main/install.sh | bash -s -- handoff
 ```
 
 **Windows (PowerShell):**
 
 ```powershell
-$env:PLUGINS="handoff"; irm https://raw.githubusercontent.com/Mate-Logic/betterantigravity/main/install.ps1 | iex
+$env:PLUGINS="handoff"; irm https://raw.githubusercontent.com/Mate-Logic/better-agy/main/install.ps1 | iex
 ```
 ## Use
 

@@ -1,4 +1,4 @@
-/* better-antigravity: a sibling of antigravity.google. Light and dark follow the system. */
+/* better-agy: a sibling of antigravity.google. Light and dark follow the system. */
 :root {
   --bg: #ffffff;
   --ink: #121317;
@@ -335,7 +335,7 @@ html { scrollbar-color: var(--c3) transparent; }
 .foot-col ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; font-size: 15px; font-weight: 500; }
 .foot-col a { text-decoration: none; }
 .foot-col a:hover { text-decoration: underline; }
-.wordmark { margin: clamp(48px, 7vw, 96px) auto 0; font-size: clamp(40px, 12.8vw, 186px); line-height: .9; letter-spacing: -.045em; font-weight: 450; white-space: nowrap; overflow: hidden; padding-bottom: .12em; }
+.wordmark { margin: clamp(48px, 7vw, 96px) auto 0; font-size: clamp(64px, 20vw, 290px); line-height: .9; letter-spacing: -.045em; font-weight: 450; white-space: nowrap; overflow: hidden; padding-bottom: .12em; }
 .wordmark span { color: var(--ink-3); }
 .foot-notes { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-top: 48px; padding-top: 32px; border-top: 1px solid var(--line-2); font-size: 14px; line-height: 1.6; color: var(--ink-3); }
 .foot-notes p { margin: 0; }

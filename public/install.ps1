@@ -5,8 +5,8 @@ param(
 
 $ErrorActionPreference = 'Stop'
 
-$RepoUrl = if ($env:BETTERANTIGRAVITY_REPO) { $env:BETTERANTIGRAVITY_REPO } else { 'https://github.com/Mate-Logic/betterantigravity.git' }
-$Branch  = if ($env:BETTERANTIGRAVITY_BRANCH) { $env:BETTERANTIGRAVITY_BRANCH } else { 'main' }
+$RepoUrl = if ($env:BETTER_AGY_REPO) { $env:BETTER_AGY_REPO } else { 'https://github.com/Mate-Logic/better-agy.git' }
+$Branch  = if ($env:BETTER_AGY_BRANCH) { $env:BETTER_AGY_BRANCH } else { 'main' }
 
 if (-not (Get-Command agy -ErrorAction SilentlyContinue)) {
   Write-Error "Error: 'agy' (Antigravity CLI) not found in PATH. Install it first: https://antigravity.google/product/antigravity-cli"
@@ -29,11 +29,11 @@ try {
     $PluginsDir = $LocalPluginsDir
   } else {
     if (-not (Get-Command git -ErrorAction SilentlyContinue)) {
-      Write-Error "Error: 'git' is required to clone better-antigravity. Install Git for Windows: https://git-scm.com/download/win"
+      Write-Error "Error: 'git' is required to clone better-agy. Install Git for Windows: https://git-scm.com/download/win"
       exit 1
     }
-    $TempClone = Join-Path ([System.IO.Path]::GetTempPath()) ("betterantigravity-" + [System.Guid]::NewGuid().ToString('N'))
-    Write-Host "Cloning better-antigravity..."
+    $TempClone = Join-Path ([System.IO.Path]::GetTempPath()) ("better-agy-" + [System.Guid]::NewGuid().ToString('N'))
+    Write-Host "Cloning better-agy..."
     & git clone --depth 1 --branch $Branch --quiet $RepoUrl $TempClone
     if ($LASTEXITCODE -ne 0) {
       Write-Error "Failed to clone $RepoUrl"

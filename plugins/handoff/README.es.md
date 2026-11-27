@@ -15,13 +15,13 @@ En una sesión nueva, decí `continue from the handoff` (o «seguí desde el han
 **Linux / macOS:**
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/Mate-Logic/betterantigravity/main/install.sh | bash -s -- handoff
+curl -fsSL https://raw.githubusercontent.com/Mate-Logic/better-agy/main/install.sh | bash -s -- handoff
 ```
 
 **Windows (PowerShell):**
 
 ```powershell
-$env:PLUGINS="handoff"; irm https://raw.githubusercontent.com/Mate-Logic/betterantigravity/main/install.ps1 | iex
+$env:PLUGINS="handoff"; irm https://raw.githubusercontent.com/Mate-Logic/better-agy/main/install.ps1 | iex
 ```
 ## Uso
 

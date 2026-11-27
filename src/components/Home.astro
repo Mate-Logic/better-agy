@@ -45,7 +45,7 @@ const other = (Object.keys(LANGS) as Lang[]).find(l => l !== lang)!
   {Object.keys(LANGS).map(l => <link rel="alternate" hreflang={l} href={SITE_URL + relPath(l as Lang)} />)}
   <link rel="alternate" hreflang="x-default" href={SITE_URL + '/'} />
   <meta property="og:type" content="website" />
-  <meta property="og:site_name" content="better-antigravity" />
+  <meta property="og:site_name" content="better-agy" />
   <meta property="og:locale" content={t.ogLocale} />
   <meta property="og:url" content={SITE_URL + relPath(lang)} />
   <meta property="og:title" content={t.title} />
@@ -73,7 +73,7 @@ const other = (Object.keys(LANGS) as Lang[]).find(l => l !== lang)!
     <nav class="nav" aria-label="Main">
       <a class="brand" href={path(lang)}>
         <svg class="brand-glyph" viewBox="0 0 12 10" aria-hidden="true"><path fill="url(#ag-grad)" d={glyph} /></svg>
-        <span>better-antigravity</span>
+        <span>better-agy</span>
       </a>
       <ul class="nav-links">
         <li><a href="#plugins">{t.nav.plugins}</a></li>
@@ -133,7 +133,7 @@ const other = (Object.keys(LANGS) as Lang[]).find(l => l !== lang)!
       </div>
     </div>
 
-    <section class="statement wrap" aria-label="better-antigravity">
+    <section class="statement wrap" aria-label="better-agy">
       <p class="statement-text" id="statement">{t.statement}</p>
       <p class="statement-lede">{t.ledeA} <a href="https://antigravity.google/product/antigravity-cli">Antigravity CLI</a>, {t.ledeBy} <a href={AUTHOR.site}>{AUTHOR.name}</a>. {t.ledeFork} <a href={CREDIT.site}>{CREDIT.project}</a>, {t.ledeBy} <a href={CREDIT.authorUrl}>@{CREDIT.author}</a>.</p>
     </section>
@@ -279,7 +279,7 @@ const other = (Object.keys(LANGS) as Lang[]).find(l => l !== lang)!
         </ul>
       </div>
     </div>
-    <p class="wordmark wrap" aria-hidden="true"><span>better</span>antigravity</p>
+    <p class="wordmark wrap" aria-hidden="true"><span>better</span>agy</p>
     <div class="wrap foot-notes">
       <p class="credit"><strong>{t.creditsTitle}</strong> {creditBefore}<a href={CREDIT.site}>{CREDIT.project}</a>{creditMid}{CREDIT.authorName} (<a href={CREDIT.authorUrl}>@{CREDIT.author}</a>){creditEnd} (<a href={CREDIT.repo}>{t.source}</a>, MIT). {t.creditsTail}</p>
       <p class="legal"><strong>{t.legalTitle}</strong> {t.legal}</p>

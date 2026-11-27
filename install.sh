@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-REPO_URL="${BETTERANTIGRAVITY_REPO:-https://github.com/Mate-Logic/betterantigravity.git}"
-BRANCH="${BETTERANTIGRAVITY_BRANCH:-main}"
+REPO_URL="${BETTER_AGY_REPO:-https://github.com/Mate-Logic/better-agy.git}"
+BRANCH="${BETTER_AGY_BRANCH:-main}"
 
 if ! command -v agy >/dev/null 2>&1; then
   echo "Error: 'agy' (Antigravity CLI) not found in PATH." >&2
@@ -28,11 +28,11 @@ if [ -n "${SCRIPT_DIR}" ] && [ -d "${SCRIPT_DIR}/plugins" ] && [ -f "${SCRIPT_DI
   PLUGINS_DIR="${SCRIPT_DIR}/plugins"
 else
   if ! command -v git >/dev/null 2>&1; then
-    echo "Error: 'git' is required to clone better-antigravity." >&2
+    echo "Error: 'git' is required to clone better-agy." >&2
     exit 1
   fi
   TMPDIR_CLONE="$(mktemp -d)"
-  echo "Cloning better-antigravity..."
+  echo "Cloning better-agy..."
   git clone --depth 1 --branch "${BRANCH}" --quiet "${REPO_URL}" "${TMPDIR_CLONE}"
   PLUGINS_DIR="${TMPDIR_CLONE}/plugins"
 fi
@@ -56,7 +56,7 @@ if [ "$#" -gt 0 ]; then
         ;;
       --help|-h)
         echo "Usage: install.sh [plugin1 plugin2 ...] | [--all] [--list]"
-        echo "Installs all better-antigravity plugins when no names are given."
+        echo "Installs all better-agy plugins when no names are given."
         exit 0
         ;;
       *)

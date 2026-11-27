@@ -1,4 +1,4 @@
-// better-antigravity: the page's few moving parts.
+// better-agy: the page's few moving parts.
 const $ = <T extends Element = HTMLElement>(s: string, c: ParentNode = document) => c.querySelector<T>(s)!
 const $$ = <T extends Element = HTMLElement>(s: string, c: ParentNode = document) => [...c.querySelectorAll<T>(s)]
 

@@ -1,5 +1,5 @@
 ---
-name: better-antigravity
+name: better-agy
 description: A sibling of antigravity.google for a free plugin collection for Antigravity CLI. Light and dark follow the system.
 colors:
   surface: "#ffffff"
@@ -187,7 +187,7 @@ components:
     height: "56px"
 ---
 
-# Design System: better-antigravity
+# Design System: better-agy
 
 ## Overview
 
@@ -249,7 +249,7 @@ A near-monochrome Google surface system with one blue for focus and links, and G
 
 ### Hierarchy
 - **Display** (420, `clamp(42px, 7.2vw, 104px)`, 1): the two-line hero headline only, tracked -0.035em, rising in word groups with a blur.
-- **Wordmark** (450, up to 186px, 0.9): the footer "betterantigravity", first word in tertiary ink.
+- **Wordmark** (450, up to 290px, 0.9): the footer "betteragy", first word in tertiary ink.
 - **Feature Headline** (400, `clamp(40px, 5vw, 72px)`, 1): the Sub Meter panel title; the closing panel uses `clamp(36px, 4.4vw, 60px)`.
 - **Headline** (400, `clamp(34px, 3.6vw, 54px)`, 1.04): section titles ("Explore the plugins", "Get started").
 - **Statement** (420, `clamp(28px, 3.3vw, 46px)`, 1.14): the manifesto paragraph, max 23em.

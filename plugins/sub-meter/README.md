@@ -13,13 +13,13 @@ The bar takes the colour of the model you are on (blue for Gemini, orange for Cl
 **Linux / macOS:**
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/Mate-Logic/betterantigravity/main/install.sh | bash -s -- sub-meter
+curl -fsSL https://raw.githubusercontent.com/Mate-Logic/better-agy/main/install.sh | bash -s -- sub-meter
 ```
 
 **Windows (PowerShell):**
 
 ```powershell
-$env:PLUGINS="sub-meter"; irm https://raw.githubusercontent.com/Mate-Logic/betterantigravity/main/install.ps1 | iex
+$env:PLUGINS="sub-meter"; irm https://raw.githubusercontent.com/Mate-Logic/better-agy/main/install.ps1 | iex
 ```
 
 The installer turns the meter on for you. It needs **Python 3**. If another status line is already set it leaves it alone and tells you; then run `/sub-meter` in agy, or the setup script with `--force`.

@@ -149,7 +149,7 @@ html { scrollbar-color: var(--c3) transparent; }
 .hero-inner { display: flex; flex-direction: column; align-items: center; text-align: center; padding: 96px var(--gutter) 88px; max-width: 1240px; }
 /* The Antigravity mark floats over its shadow; a click sends it up and scatters the field. */
 .mark { position: relative; display: grid; justify-items: center; width: 112px; padding: 0 0 22px; border-radius: 20px; animation: arrive 1.4s var(--ease) both; }
-.mark-img { display: block; width: 96px; height: auto; animation: float 5s ease-in-out 1.4s infinite; }
+.mark-img { display: block; width: 124px; height: auto; margin: -16px 0 -18px; animation: float 5s ease-in-out 1.4s infinite; }
 .mark-shadow { position: absolute; bottom: 4px; left: 50%; width: 64px; height: 10px; margin-left: -32px; border-radius: 50%; background: radial-gradient(closest-side, rgba(18, 19, 23, .18), transparent); animation: shadow 5s ease-in-out 1.4s infinite; }
 .mark.lift .mark-img { animation: liftoff 1.3s cubic-bezier(.3,.7,.3,1) 1, float 5s ease-in-out 1.3s infinite; }
 .mark.lift .mark-shadow { animation: shadow-lift 1.3s cubic-bezier(.3,.7,.3,1) 1, shadow 5s ease-in-out 1.3s infinite; }
@@ -160,12 +160,12 @@ html { scrollbar-color: var(--c3) transparent; }
 @keyframes shadow-lift { 0% { transform: scaleX(1); opacity: 1; } 30% { transform: scaleX(.3); opacity: .15; } 100% { transform: scaleX(1); opacity: 1; } }
 .built { display: inline-flex; align-items: center; gap: 8px; margin-top: 20px; height: 36px; padding: 0 14px 0 16px; border-radius: 999px; background: var(--bg); box-shadow: inset 0 0 0 1px var(--line); font-size: 14.5px; text-decoration: none; color: var(--ink); animation: rise 1.2s var(--ease) .1s both; transition: background-color .2s; }
 .built:hover { background: var(--c1); }
-.built img { display: block; width: 18px; height: auto; }
+.built img { display: block; width: 24px; height: auto; margin: 0 -3px; }
 .built-for { color: var(--ink-3); }
 .built-name { font-weight: 500; }
 .built .i { color: var(--ink-3); }
 .built.small { margin-top: 18px; animation: none; height: 32px; font-size: 13.5px; }
-.built.small img { width: 16px; }
+.built.small img { width: 22px; }
 .hero-title { margin-top: 28px; font-size: clamp(42px, 7.2vw, 104px); line-height: 1; letter-spacing: -.035em; font-weight: 420; }
 .hero-title > span { display: inline-block; animation: rise 1.2s var(--ease) both; }
 .hero-title > span + span { animation-delay: .12s; }

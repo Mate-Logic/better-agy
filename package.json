@@ -12,6 +12,8 @@
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^7.4.13"
+    "@fontsource-variable/google-sans-code": "^5.3.2",
+    "astro": "^7.4.13",
+    "marked": "^18.3.0"
   }
 }

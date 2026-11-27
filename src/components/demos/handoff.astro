@@ -1,0 +1,33 @@
+---
+import StatusLine from '../StatusLine.astro'
+import { ui, type Lang } from '../../i18n/ui'
+interface Props { lang: Lang }
+const { lang } = Astro.props
+const t = {
+  en: { writing: 'Writing the handoff', wrote: 'Wrote', next: ['Wire the source tab to', 'Test the prompt builder with zero picks'], gotcha: 'Clipboard needs HTTPS; the fallback is a textarea',
+    ask: 'continue from the handoff', reading: 'Reading .agents/handoff.md', r1: '  Goal: ship the plugin reader. 2 commits landed since the note.', r2: ['  Next: wire the source tab to', '. Starting now.'] },
+  es: { writing: 'Escribiendo el handoff', wrote: 'Escribí', next: ['Conectar la pestaña de código con', 'Probar el armado del prompt sin plugins elegidos'], gotcha: 'El portapapeles necesita HTTPS; el plan B es un textarea',
+    ask: 'seguí desde el handoff', reading: 'Leyendo .agents/handoff.md', r1: '  Objetivo: terminar el lector de plugins. Hubo 2 commits desde la nota.', r2: ['  Siguiente: conectar la pestaña de código con', '. Arranco.'] },
+}[lang]
+---
+<div class="demo" role="group" aria-label="Demo" data-demo="handoff">
+  <div data-view-pane="write">
+    <p class="line"><span class="p">&gt; </span><span class="accent">/handoff</span></p>
+    <p class="line title">{t.writing}</p>
+    <p class="line">  <span class="ok">✓</span> {t.wrote} <code>.agents/handoff.md</code></p>
+    <p class="line quote"><span class="accent">## Next</span></p>
+    <p class="line quote">1. {t.next[0]} <code>reader.ts</code></p>
+    <p class="line quote">2. {t.next[1]}</p>
+    <p class="line quote"><span class="accent">## Gotchas</span></p>
+    <p class="line quote">{t.gotcha}</p>
+  </div>
+  <div data-view-pane="resume" hidden>
+    <p class="line"><span class="p">&gt; </span>{t.ask}</p>
+    <p class="line title">{t.reading}</p>
+    <p class="line">{t.r1}</p>
+    <p class="line">{t.r2[0]} <code>reader.ts</code>{t.r2[1]}</p>
+  </div>
+  <StatusLine>
+    <button type="button" class="session" aria-pressed="false">{ui[lang].client.newSession}</button>
+  </StatusLine>
+</div>

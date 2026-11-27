@@ -1,0 +1,6 @@
+---
+import { DEMO_MODEL } from '../site'
+interface Props { left?: string }
+const { left = '~/shop' } = Astro.props
+---
+<p class="line status"><span class="dim">{left}</span><slot><span class="dim">{DEMO_MODEL}</span></slot></p>

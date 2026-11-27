@@ -1,0 +1,41 @@
+---
+import StatusLine from '../StatusLine.astro'
+import type { Lang } from '../../i18n/ui'
+interface Props { lang: Lang }
+const { lang } = Astro.props
+const t = {
+  en: {
+    title: 'Reviewing 3 files changed since HEAD', breaks: 'breaks when:', foot: '  3 findings · nothing edited · click one to expand',
+    findings: [
+      { sev: 'high', where: 'api/upload.ts:58', what: 'The size limit is checked after the file is written to disk.', breaks: 'a 2 GB upload fills the disk before it is rejected' },
+      { sev: 'medium', where: 'lib/cache.ts:21', what: 'The cache key leaves out the locale.', breaks: 'a Spanish visitor gets the English page cached a second earlier' },
+      { sev: 'low', where: 'cart/total.ts:12', what: 'Discounts are rounded before they are summed.', breaks: 'three 0.335 discounts total 1.02 instead of 1.01' },
+    ],
+  },
+  es: {
+    title: 'Revisando 3 archivos modificados desde HEAD', breaks: 'se rompe cuando:', foot: '  3 hallazgos · nada editado · tocá uno para expandirlo',
+    findings: [
+      { sev: 'high', where: 'api/upload.ts:58', what: 'El límite de tamaño se comprueba después de escribir el archivo en disco.', breaks: 'una subida de 2 GB llena el disco antes de ser rechazada' },
+      { sev: 'medium', where: 'lib/cache.ts:21', what: 'La clave de caché no incluye el idioma.', breaks: 'un visitante en español recibe la página en inglés cacheada un segundo antes' },
+      { sev: 'low', where: 'cart/total.ts:12', what: 'Los descuentos se redondean antes de sumarlos.', breaks: 'tres descuentos de 0,335 suman 1,02 en vez de 1,01' },
+    ],
+  },
+}[lang]
+---
+<div class="demo" role="group" aria-label="Demo" data-demo="review">
+  <p class="line"><span class="p">&gt; </span><span class="accent">/review</span></p>
+  <p class="line title">{t.title}</p>
+  {t.findings.map((f, i) => (
+    <div class="finding">
+      <button type="button" class="finding-head" aria-expanded={i === 0 ? 'true' : 'false'}>
+        <span class={`sev ${f.sev}`}>●</span> <span class={`sev-name ${f.sev}`}>{f.sev.padEnd(6)}</span> <span>{f.where}</span>
+      </button>
+      <div class="finding-body" hidden={i !== 0}>
+        <p class="line quote">{f.what}</p>
+        <p class="line quote"><span class="dim">{t.breaks}</span> {f.breaks}</p>
+      </div>
+    </div>
+  ))}
+  <p class="line dim">{t.foot}</p>
+  <StatusLine />
+</div>

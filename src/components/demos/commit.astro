@@ -1,0 +1,28 @@
+---
+import StatusLine from '../StatusLine.astro'
+import type { Lang } from '../../i18n/ui'
+interface Props { lang: Lang }
+const { lang } = Astro.props
+const t = {
+  en: { title: 'Grouping 5 changed files', ask: 'How should I commit them?', opts: ['Commit + push (Recommended)', 'Commit only', 'Commit on a new branch'], nav: '↑/↓ Navigate · enter Confirm',
+    results: { push: '  · 2 commits · pushed to main', only: '  · 2 commits on main · not pushed', branch: '  · 2 commits on feat/plugin-reader · pushed with -u' }, label: 'Commit mode' },
+  es: { title: 'Agrupando 5 archivos modificados', ask: '¿Cómo los commiteo?', opts: ['Commit + push (Recomendado)', 'Solo commit', 'Commit en una rama nueva'], nav: '↑/↓ Navegar · enter Confirmar',
+    results: { push: '  · 2 commits · push a main', only: '  · 2 commits en main · sin push', branch: '  · 2 commits en feat/plugin-reader · push con -u' }, label: 'Modo de commit' },
+}[lang]
+const keys = ['push', 'only', 'branch'] as const
+---
+<div class="demo" role="group" aria-label="Demo" data-demo="commit">
+  <p class="line"><span class="p">&gt; </span><span class="accent">/commit</span></p>
+  <p class="line title">{t.title}</p>
+  <p class="line">  {t.ask}</p>
+  <div class="choices" role="radiogroup" aria-label={t.label}>
+    {keys.map((k, i) => (
+      <button type="button" class="choice" role="radio" aria-checked={i === 0 ? 'true' : 'false'} data-result={t.results[k]}><span class="mark">&gt;</span> {i + 1}. {t.opts[i]}</button>
+    ))}
+  </div>
+  <p class="line dim">  {t.nav}</p>
+  <p class="line">  <span class="ok">✓</span> feat(web): add the plugin reader<span class="dim">  a1c3f9e</span></p>
+  <p class="line">  <span class="ok">✓</span> docs: explain the install prompt<span class="dim">  7be20d4</span></p>
+  <p class="line dim" data-commit-result>{t.results.push}</p>
+  <StatusLine />
+</div>

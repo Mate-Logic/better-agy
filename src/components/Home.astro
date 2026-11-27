@@ -1,0 +1,173 @@
+---
+import '@fontsource-variable/google-sans-code'
+import '../styles/global.css'
+import { plugins, pluginsUpdated } from '../lib/plugins'
+import { glyphPath } from '../lib/glyph'
+import { REPO, SITE_URL, AUTHOR, CREDIT } from '../site'
+import { ui, pluginCopy, LANGS, path, type Lang } from '../i18n/ui'
+import CommitDemo from './demos/commit.astro'
+import ReviewDemo from './demos/review.astro'
+import HandoffDemo from './demos/handoff.astro'
+
+interface Props { lang: Lang }
+const { lang } = Astro.props
+const t = ui[lang]
+const demos: Record<string, any> = { commit: CommitDemo, review: ReviewDemo, handoff: HandoffDemo }
+const glyph = glyphPath()
+const updated = pluginsUpdated()
+const data = { repo: REPO, plugins: plugins.map(p => ({ name: p.name, displayName: p.displayName })) }
+const countLabel = (c: Record<string, number>) => (Object.keys(t.counts) as (keyof typeof t.counts)[])
+  .filter(k => c[k]).map(k => `${c[k]} ${t.counts[k][c[k] > 1 ? 1 : 0]}`).join(', ')
+// The credit sentence, cut where the project and the author's name go so both can be links.
+const [creditBefore, creditAfter] = t.credits('%P%', '%N%').split('%P%')
+const [creditMid, creditEnd] = creditAfter.split('%N%')
+---
+<!doctype html>
+<html lang={lang}>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{t.title}</title>
+  <meta name="description" content={t.description} />
+  <link rel="canonical" href={SITE_URL + path(lang)} />
+  {Object.keys(LANGS).map(l => <link rel="alternate" hreflang={l} href={SITE_URL + path(l as Lang)} />)}
+  <link rel="alternate" hreflang="x-default" href={SITE_URL + '/'} />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="better-antigravity" />
+  <meta property="og:locale" content={t.ogLocale} />
+  <meta property="og:url" content={SITE_URL + path(lang)} />
+  <meta property="og:title" content={t.title} />
+  <meta property="og:description" content={t.description} />
+  <meta name="twitter:card" content="summary" />
+  <meta name="color-scheme" content="dark" />
+  <meta name="theme-color" content="#0b0c0f" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <meta name="generator" content={Astro.generator} />
+</head>
+<body>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <linearGradient id="ag-grad" x1="0" y1="0" x2="12" y2="10" gradientUnits="userSpaceOnUse">
+        <stop offset="0" stop-color="#4285f4" /><stop offset=".38" stop-color="#34a853" /><stop offset=".68" stop-color="#fbbc04" /><stop offset="1" stop-color="#ea4335" />
+      </linearGradient>
+    </defs>
+  </svg>
+
+  <main>
+    <nav class="langs" aria-label="Language">
+      {Object.entries(LANGS).map(([l, name]) => (
+        <a href={path(l as Lang)} hreflang={l} lang={l} aria-current={l === lang ? 'page' : undefined}>{l.toUpperCase()}<span class="sr">{' '}{name}</span></a>
+      ))}
+    </nav>
+    <header>
+      <div class="title">
+        <button type="button" class="glyph" id="glyph" aria-label={t.liftOff}>
+          <span class="glyph-body"><svg viewBox="0 0 12 10" aria-hidden="true"><path fill="url(#ag-grad)" d={glyph} /></svg></span>
+          <span class="glyph-shadow" aria-hidden="true"></span>
+        </button>
+        <h1>better<span class="ag">antigravity</span></h1>
+      </div>
+      <a class="updated" href={`${REPO}/commits/main/plugins`}>{t.updated} <time id="updated" datetime={updated}>{updated.slice(0, 10)}</time></a>
+      <p class="lede">{t.ledeA} <a href="https://antigravity.google/product/antigravity-cli">Antigravity CLI</a>, {t.ledeBy} <a href={AUTHOR.site}>{AUTHOR.name}</a>. {t.ledeFork} <a href={CREDIT.site}>{CREDIT.project}</a>, {t.ledeBy} <a href={CREDIT.authorUrl}>@{CREDIT.author}</a>.</p>
+
+      <section class="install" aria-label={t.install}>
+        <p class="picks-head"><strong id="picks-label">{t.pickLabel}</strong><span class="count" id="picks-count"></span><button type="button" id="picks-all">{t.none}</button></p>
+        <ul class="picks" role="group" aria-labelledby="picks-label">
+          {plugins.map(p => <li><button type="button" class="pick" data-plugin={p.name} aria-pressed="true">{p.displayName}</button></li>)}
+        </ul>
+        <div class="cta">
+          <button type="button" class="primary" id="copy-prompt">{t.copy}</button>
+          <span class="note">{t.note[0]} <code>agy</code>{t.note[1]}</span>
+        </div>
+        <details>
+          <summary>{t.whatCopies}</summary>
+          <pre class="preview" id="prompt"></pre>
+        </details>
+      </section>
+    </header>
+
+    <ol class="plugins">
+      {plugins.map(p => {
+        const Demo = demos[p.name]
+        return (
+          <li class="plugin" id={p.name}>
+            <div class="meta">
+              <h2>{p.displayName}</h2>
+              <p class="version">v{p.version} · {countLabel(p.counts)}</p>
+              <ul class="links">
+                <li><a data-panel="source" data-plugin={p.name} href={p.sourceUrl}><span>{t.source}</span></a></li>
+                <li><a data-panel="docs" data-plugin={p.name} href={lang === 'es' ? p.docsUrlEs : p.docsUrl}><span>{t.docs}</span></a></li>
+                <li><button type="button" data-install={p.name}><span>{t.install}</span></button></li>
+              </ul>
+            </div>
+            <div class="body">
+              <p>{pluginCopy[lang][p.name] ?? p.description}</p>
+              {Demo && <Demo lang={lang} />}
+            </div>
+          </li>
+        )
+      })}
+    </ol>
+
+    <footer>
+      <div class="foot-top">
+        <div class="brand">
+          <span class="mini" aria-hidden="true"><svg viewBox="0 0 12 10"><path fill="url(#ag-grad)" d={glyph} /></svg></span>
+          <div><b>better<span class="ag">antigravity</span></b><span>{t.tagline}</span></div>
+        </div>
+        <ul class="foot-links">
+          <li><a href={REPO}>GitHub</a></li>
+          <li><a href={`${REPO}/issues`}>{t.issues}</a></li>
+          <li><a href={AUTHOR.url}>{AUTHOR.name}</a></li>
+        </ul>
+      </div>
+
+      <p class="credit">
+        <strong>{t.creditsTitle}</strong> {creditBefore}<a href={CREDIT.site}>{CREDIT.project}</a>{creditMid}{CREDIT.authorName} (<a href={CREDIT.authorUrl}>@{CREDIT.author}</a>){creditEnd} (<a href={CREDIT.repo}>{t.source}</a>, MIT). {t.creditsTail}
+      </p>
+
+      <p class="legal"><strong>{t.legalTitle}</strong> {t.legal}</p>
+
+      <div class="foot-bottom">
+        <span>{t.license[0]} <a href={`${REPO}/blob/main/LICENSE`}>{t.license[1]}</a> · {AUTHOR.name} · {t.license[2]} <a href={CREDIT.site}>{CREDIT.project}</a> {t.license[3]} @{CREDIT.author}</span>
+      </div>
+    </footer>
+  </main>
+
+  <aside class="reader" id="reader" aria-labelledby="reader-name" inert>
+    <header class="reader-head">
+      <div class="reader-top">
+        <h2 id="reader-title" tabindex="-1"><span id="reader-name"></span><span class="reader-path" id="reader-path"></span></h2>
+        <a class="reader-out" id="reader-out" href={REPO} target="_blank" rel="noopener">GitHub ↗</a>
+        <button type="button" class="reader-close" id="reader-close" aria-label={t.close}>✕</button>
+      </div>
+      <div class="reader-tabs" role="tablist" aria-label={t.view}>
+        <button type="button" role="tab" id="tab-docs" data-tab="docs" aria-controls="reader-body" aria-selected="true">{t.docs}</button>
+        <button type="button" role="tab" id="tab-source" data-tab="source" aria-controls="reader-body" aria-selected="false" tabindex="-1">{t.source}</button>
+      </div>
+    </header>
+    <div class="reader-body" id="reader-body" role="tabpanel"></div>
+  </aside>
+
+  {plugins.map(p => (
+    <>
+      <template id={`docs-${p.name}`} data-path={`plugins/${p.name}/${lang === 'es' && p.docsUrlEs.endsWith('README.es.md') ? 'README.es.md' : 'README.md'}`}><article class="md" set:html={p.readmeHtml[lang]} /></template>
+      <template id={`source-${p.name}`} data-path={`plugins/${p.name}/`}>
+        <div class="tree">
+          {p.files.map(f => (
+            <details class="file" open={f.path.endsWith('SKILL.md') || f.path === 'plugin.json'}>
+              <summary>{f.path}</summary>
+              <pre><code>{f.content}</code></pre>
+            </details>
+          ))}
+        </div>
+      </template>
+    </>
+  ))}
+
+  <div class="toast" id="toast" role="status"></div>
+
+  <script type="application/json" id="site-data" set:html={JSON.stringify(data)} />
+  <script>import '../scripts/main.ts'</script>
+</body>
+</html>

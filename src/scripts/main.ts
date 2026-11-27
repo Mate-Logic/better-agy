@@ -35,6 +35,14 @@ async function copy (text: string): Promise<boolean> {
   return ok
 }
 
+const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches
+
+// ---------- the announcement bar ----------
+$('#announce-x').addEventListener('click', () => {
+  document.documentElement.classList.add('no-announce')
+  try { sessionStorage.setItem('ba-announce', 'off') } catch {}
+})
+
 // ---------- the install prompt & quick CLI command ----------
 let currentOs: 'unix' | 'win' = /Windows/i.test(navigator.userAgent) ? 'win' : 'unix'
 const osTabs = $$<HTMLButtonElement>('.os-tab')
@@ -50,6 +58,23 @@ const buildCli = (names: string[]) => {
     : `curl -fsSL ${data.installScript} | bash -s -- ${names.join(' ')}`
 }
 
+// The terminal types the command out, as if someone were at the keyboard.
+let typing = 0
+let typedOnce = false
+function typeCmd (text: string) {
+  cancelAnimationFrame(typing)
+  if (reduced || !typedOnce) { cliCmdEl.textContent = text; return }
+  const from = performance.now()
+  const dur = Math.min(900, 18 * text.length)
+  const step = (now: number) => {
+    const k = Math.min(1, (now - from) / dur)
+    cliCmdEl.textContent = text.slice(0, Math.round(text.length * k))
+    if (k < 1) typing = requestAnimationFrame(step)
+  }
+  typing = requestAnimationFrame(step)
+}
+
+const ctaBtn = $<HTMLButtonElement>('#cta-copy')
 const picks = $$<HTMLButtonElement>('.pick')
 const countEl = $('#picks-count')
 const allBtn = $<HTMLButtonElement>('#picks-all')
@@ -66,7 +91,8 @@ function refresh () {
   copyBtn.disabled = names.length === 0
   copyCliBtn.disabled = names.length === 0
   promptEl.textContent = names.length ? buildPrompt(names) : t.pickOne
-  cliCmdEl.textContent = names.length ? buildCli(names) : t.pickOne
+  typeCmd(names.length ? buildCli(names) : t.pickOne)
+  ctaBtn.disabled = names.length === 0
   osTabs.forEach(tab => tab.setAttribute('aria-selected', String(tab.dataset.os === currentOs)))
 }
 osTabs.forEach(tab => tab.addEventListener('click', () => {
@@ -96,7 +122,18 @@ $$<HTMLButtonElement>('[data-install]').forEach(b => b.addEventListener('click',
   const name = b.dataset.install!
   say(await copy(buildPrompt([name])) ? t.client.copiedOne(name) : t.client.copyFailed)
 }))
+ctaBtn.addEventListener('click', async () => {
+  const names = picked()
+  if (!names.length) return
+  say(await copy(buildCli(names)) ? t.client.copiedCli(names.length) : t.client.copyFailed)
+})
 refresh()
+typedOnce = true
+// Type it out once the terminal scrolls into view.
+const consoleEl = $('.console')
+new IntersectionObserver((entries, io) => {
+  if (entries.some(e => e.isIntersecting)) { io.disconnect(); cliCmdEl.textContent = ''; refresh() }
+}, { threshold: .5 }).observe(consoleEl)
 
 // ---------- "plugins updated 3 days ago" ----------
 const time = $<HTMLTimeElement>('#updated')
@@ -117,7 +154,196 @@ glyph.addEventListener('click', () => {
   glyph.classList.remove('lift')
   void glyph.offsetWidth // restart the animation
   glyph.classList.add('lift')
+  dispatchEvent(new CustomEvent('ba-burst'))
 })
+
+// ---------- the statement lights up as you read ----------
+const statement = $('#statement')
+const words = statement.textContent!.trim().split(/\s+/)
+statement.replaceChildren(...words.flatMap((w, i) => {
+  const s = document.createElement('span')
+  s.className = 'w'
+  s.textContent = w
+  return i ? [document.createTextNode(' '), s] : [s]
+}))
+const wordEls = $$('.w', statement)
+let lit = -1
+function light () {
+  const r = statement.getBoundingClientRect()
+  const vh = innerHeight
+  const k = reduced ? 1 : Math.min(1, Math.max(0, (vh * .86 - r.top) / (r.height + vh * .3)))
+  const n = Math.round(k * wordEls.length)
+  if (n === lit) return
+  lit = n
+  wordEls.forEach((w, i) => w.classList.toggle('on', i < n))
+}
+let lightQueued = false
+addEventListener('scroll', () => {
+  if (lightQueued) return
+  lightQueued = true
+  requestAnimationFrame(() => { lightQueued = false; light() })
+}, { passive: true })
+light()
+
+// ---------- Sub Meter: the bar, live ----------
+$$('[data-demo="sub-meter"]').forEach(demo => {
+  const wins: { label: string, pct: number, reset: string }[] = JSON.parse(demo.dataset.windows || '[]')
+  const sm = $('.smeter', demo)
+  const label = $('.sm-label', demo)
+  const fill = $('.sm-fill', demo)
+  const empty = $('.sm-empty', demo)
+  const pctEl = $('.sm-pct', demo)
+  const reset = $('.sm-reset', demo)
+  const range = $<HTMLInputElement>('#sm-range')
+  const out = $<HTMLOutputElement>('#sm-out')
+  let idx = 0
+  let held = 0
+  const draw = (pct: number) => {
+    const cells = Math.round(pct / 10)
+    fill.textContent = '━'.repeat(cells)
+    empty.textContent = '─'.repeat(10 - cells)
+    pctEl.textContent = `${Math.round(pct)}%`
+    sm.dataset.level = pct >= 90 ? 'err' : pct >= 75 ? 'warn' : 'ok'
+  }
+  const show = (i: number, swap = true) => {
+    idx = i
+    const w = wins[i]
+    label.textContent = w.label
+    reset.textContent = ` · ${w.reset}`
+    draw(w.pct)
+    range.value = String(w.pct)
+    out.value = `${w.pct}%`
+    if (swap && !reduced) { sm.classList.remove('sm-swap'); void sm.offsetWidth; sm.classList.add('sm-swap') }
+  }
+  show(0, false)
+  range.addEventListener('input', () => {
+    const v = Number(range.value)
+    wins[idx].pct = v
+    out.value = `${v}%`
+    draw(v)
+    held = Date.now() + 8000
+  })
+  // Fill up once it scrolls into view, then take turns like the real one.
+  new IntersectionObserver((entries, io) => {
+    if (!entries.some(e => e.isIntersecting)) return
+    io.disconnect()
+    if (reduced) return
+    const target = wins[0].pct
+    const from = performance.now()
+    const step = (now: number) => {
+      const k = Math.min(1, (now - from) / 1400)
+      draw(target * (1 - Math.pow(1 - k, 4)))
+      if (k < 1) requestAnimationFrame(step)
+    }
+    requestAnimationFrame(step)
+    setInterval(() => { if (Date.now() > held && !document.hidden) show((idx + 1) % wins.length) }, 5000)
+  }, { threshold: .4 }).observe(demo)
+})
+
+// ---------- the particle field ----------
+// Short dashes in Google's colours, in a slow ring that leans toward the pointer and moves out of its way.
+const STOPS: [number, number[]][] = [[0, [66, 133, 244]], [70, [80, 105, 240]], [130, [123, 97, 255]], [185, [161, 66, 244]], [218, [234, 67, 53]], [250, [250, 123, 23]], [285, [251, 188, 4]], [322, [52, 168, 83]], [360, [66, 133, 244]]]
+function hueAt (deg: number) {
+  deg = ((deg % 360) + 360) % 360
+  for (let i = 1; i < STOPS.length; i++) {
+    const [d1, c1] = STOPS[i]
+    const [d0, c0] = STOPS[i - 1]
+    if (deg <= d1) {
+      const k = (deg - d0) / (d1 - d0)
+      return c0.map((v, j) => Math.round(v + (c1[j] - v) * k))
+    }
+  }
+  return STOPS[0][1]
+}
+interface Dot { a: number, r: number, w: number, len: number, wid: number, alpha: number, col: string, phase: number, ox: number, oy: number, grey: boolean, sx: number, sy: number }
+const FIELDS: Record<string, { cx: number, cy: number, rx: number, ry: number, density: number }> = {
+  hero: { cx: .5, cy: .47, rx: .5, ry: .46, density: 1 },
+  feature: { cx: .8, cy: .52, rx: .34, ry: .5, density: .6 },
+  cta: { cx: .86, cy: .5, rx: .3, ry: .62, density: .55 },
+}
+function field (canvas: HTMLCanvasElement) {
+  const cfg = FIELDS[canvas.dataset.field || 'hero']
+  const ctx = canvas.getContext('2d')
+  if (!ctx) return
+  let w = 0, h = 0, dpr = 1, dots: Dot[] = []
+  let mx = -9999, my = -9999, cx = 0, cy = 0, visible = false, raf = 0, last = 0
+  // The ring opens out from the middle when it first shows, and again on a burst.
+  let born = 0, burst = -1e9
+  const build = () => {
+    dpr = Math.min(2, devicePixelRatio || 1)
+    w = canvas.clientWidth; h = canvas.clientHeight
+    canvas.width = Math.round(w * dpr); canvas.height = Math.round(h * dpr)
+    const n = Math.round(Math.min(1100, Math.max(260, (w * h) / 1300)) * cfg.density)
+    cx = w * cfg.cx; cy = h * cfg.cy
+    dots = Array.from({ length: n }, () => {
+      const grey = Math.random() < .16
+      const a = Math.random() * Math.PI * 2
+      const r = grey ? .15 + Math.random() * 1.4 : .66 + .48 * Math.pow(Math.random(), .85)
+      const [R, G, B] = hueAt((a * 180) / Math.PI)
+      return {
+        a, r, grey,
+        w: (Math.random() * .6 + .4) * (Math.random() < .5 ? 1 : -1) * .00004 + .00005,
+        len: grey ? 1.2 : 2.6 + Math.random() * 4.2,
+        wid: grey ? 1.2 : 1.5 + Math.random() * .9,
+        alpha: grey ? .35 : .45 + Math.random() * .55,
+        col: grey ? '154,160,166' : `${R},${G},${B}`,
+        phase: Math.random() * Math.PI * 2,
+        ox: 0, oy: 0, sx: 0, sy: 0,
+      }
+    })
+  }
+  const frame = (now: number) => {
+    const dt = Math.min(48, now - (last || now)); last = now
+    // The ring leans toward the pointer, a little.
+    const tx = w * cfg.cx + (mx > -999 ? (mx - w * cfg.cx) * .06 : 0)
+    const ty = h * cfg.cy + (my > -999 ? (my - h * cfg.cy) * .06 : 0)
+    cx += (tx - cx) * .05; cy += (ty - cy) * .05
+    const rx = Math.max(w * cfg.rx, 260), ry = Math.max(h * cfg.ry, 220)
+    if (!born) born = now
+    const open = reduced ? 1 : 1 - Math.pow(1 - Math.min(1, (now - born) / 1800), 4)
+    const kick = reduced ? 0 : Math.max(0, 1 - (now - burst) / 1100)
+    const swell = open * (1 + .22 * Math.sin(Math.PI * Math.min(1, (now - burst) / 1100)) * (kick > 0 ? 1 : 0))
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
+    ctx.clearRect(0, 0, w, h)
+    ctx.lineCap = 'round'
+    for (const d of dots) {
+      d.a += d.w * dt
+      const breathe = 1 + .025 * Math.sin(now * .0007 + d.phase)
+      const ca = Math.cos(d.a), sa = Math.sin(d.a)
+      let x = cx + ca * rx * d.r * breathe * swell
+      let y = cy + sa * ry * d.r * breathe * swell
+      // Out of the pointer's way.
+      const dx = x - mx, dy = y - my
+      const dist = Math.hypot(dx, dy)
+      let px = 0, py = 0
+      if (dist < 150 && dist > .01) {
+        const f = Math.pow(1 - dist / 150, 2) * 46
+        px = (dx / dist) * f; py = (dy / dist) * f
+      }
+      d.ox += (px - d.ox) * .1; d.oy += (py - d.oy) * .1
+      x += d.ox; y += d.oy
+      ctx.strokeStyle = `rgba(${d.col},${d.alpha})`
+      ctx.lineWidth = d.wid
+      ctx.beginPath()
+      ctx.moveTo(x - ca * d.len * .5, y - sa * d.len * .5)
+      ctx.lineTo(x + ca * d.len * .5, y + sa * d.len * .5)
+      ctx.stroke()
+    }
+    if (visible && !reduced) raf = requestAnimationFrame(frame)
+  }
+  const start = () => { cancelAnimationFrame(raf); last = 0; raf = requestAnimationFrame(frame) }
+  build()
+  frame(performance.now())
+  new ResizeObserver(() => { build(); frame(performance.now()) }).observe(canvas)
+  new IntersectionObserver(([e]) => { visible = e.isIntersecting; if (visible && !reduced) start() }).observe(canvas)
+  addEventListener('pointermove', e => {
+    const r = canvas.getBoundingClientRect()
+    mx = e.clientX - r.left; my = e.clientY - r.top
+  }, { passive: true })
+  document.addEventListener('pointerleave', () => { mx = my = -9999 })
+  if (canvas.dataset.field === 'hero') addEventListener('ba-burst', () => { burst = performance.now(); if (visible && !reduced) start() })
+}
+$$<HTMLCanvasElement>('canvas[data-field]').forEach(field)
 
 // ---------- demos ----------
 $$('[data-demo="commit"]').forEach(demo => {

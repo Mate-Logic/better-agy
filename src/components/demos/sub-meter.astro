@@ -1,0 +1,28 @@
+---
+import type { Lang } from '../../i18n/ui'
+import { ui } from '../../i18n/ui'
+interface Props { lang: Lang }
+const { lang } = Astro.props
+const t = ui[lang]
+const c = {
+  en: { ask: 'add rate limiting to the upload endpoint', doing: 'Editing api/upload.ts', l1: 'Added a token bucket per user (60 a minute)', l2: '3 tests pass', mode: 'proceed in sandbox' },
+  es: { ask: 'agregá rate limiting al endpoint de subida', doing: 'Editando api/upload.ts', l1: 'Agregué un token bucket por usuario (60 por minuto)', l2: 'Pasan 3 tests', mode: 'proceed in sandbox' },
+}[lang]
+const windows = [
+  { label: t.window5h, pct: 58, reset: '2h 10m' },
+  { label: t.windowWeek, pct: 31, reset: '4d 6h' },
+]
+---
+<div class="term" data-demo="sub-meter" data-windows={JSON.stringify(windows)}>
+  <div class="term-bar" aria-hidden="true"><i></i><i></i><i></i><span>~/shop — agy</span></div>
+  <div class="term-body">
+    <p class="line"><span class="p">&gt; </span>{c.ask}</p>
+    <p class="line title">{c.doing}</p>
+    <p class="line">  <span class="ok">✓</span> {c.l1}</p>
+    <p class="line">  <span class="ok">✓</span> {c.l2}</p>
+    <p class="line status sm-status">
+      <span class="dim">⏵⏵ {c.mode}</span>
+      <span class="smeter" aria-live="off"><span class="dim sm-label">{windows[0].label}</span> <span class="sm-fill"></span><span class="dim sm-empty"></span> <span class="sm-pct">{windows[0].pct}%</span><span class="dim sm-reset"> · {windows[0].reset}</span></span>
+    </p>
+  </div>
+</div>

@@ -1,0 +1,17 @@
+---
+import StatusLine from '../StatusLine.astro'
+import type { Lang } from '../../i18n/ui'
+interface Props { lang: Lang }
+const { lang } = Astro.props
+const c = {
+  en: { ask: 'split the checkout page into steps', doing: 'Reading 14 files in src/checkout', l1: 'Split CheckoutPage into Cart, Shipping and Payment' },
+  es: { ask: 'separá la página de checkout en pasos', doing: 'Leyendo 14 archivos en src/checkout', l1: 'Separé CheckoutPage en Cart, Shipping y Payment' },
+}[lang]
+---
+<div class="demo" role="group" aria-label="Demo" data-demo="context-meter">
+  <p class="line"><span class="p">&gt; </span>{c.ask}</p>
+  <p class="line title">{c.doing}</p>
+  <p class="line">  <span class="ok">✓</span> {c.l1}</p>
+  <p class="line ctx"><span class="dot ok-dot" aria-hidden="true"></span><b>Context</b>: <code>███████░░░░░</code> <b>58%</b> <span class="dim">(580.0k / 1.00M · gemini-4-neon)</span></p>
+  <StatusLine />
+</div>

@@ -16,6 +16,7 @@ export const CREDIT = {
 
 // The order plugins appear in; plugins not listed here follow, alphabetically.
 export const ORDER = [
+  'sub-meter',
   'commit',
   'review',
   'handoff',
@@ -33,5 +34,26 @@ export const ORDER = [
 export const INSTALL_SCRIPT = `https://raw.githubusercontent.com/Mate-Logic/betterantigravity/${BRANCH}/install.sh`
 export const INSTALL_SCRIPT_WIN = `https://raw.githubusercontent.com/Mate-Logic/betterantigravity/${BRANCH}/install.ps1`
 
+// What you type to use each plugin.
+export const COMMANDS: Record<string, string> = {
+  'sub-meter': '/sub-meter',
+  commit: '/commit',
+  review: '/review',
+  handoff: '/handoff',
+  'time-machine': '/timeline',
+  after: '/after',
+  'think-hard': '+',
+  'fast-turn': '_',
+  'context-meter': '/context',
+  'token-meter': '/tokens',
+  narrator: '/narrator',
+  'quick-peek': '/peek',
+  'image-preview': '/preview',
+}
+
+// The plugin the page announces, and the ones that get a terminal demo.
+export const FEATURED = 'sub-meter'
+export const SHOWCASE = ['commit', 'review', 'handoff', 'context-meter']
+
 // The model name the demos show in the status line.
-export const DEMO_MODEL = 'Gemini 3.8 Flash (Medium)'
+export const DEMO_MODEL = 'Gemini 4 Neon (Medium)'

@@ -1,27 +1,38 @@
 ---
+import '@fontsource-variable/google-sans-flex'
 import '@fontsource-variable/google-sans-code'
 import '../styles/global.css'
 import { plugins, pluginsUpdated } from '../lib/plugins'
 import { glyphPath } from '../lib/glyph'
-import { REPO, SITE_URL, AUTHOR, CREDIT, INSTALL_SCRIPT, INSTALL_SCRIPT_WIN } from '../site'
+import { icon } from '../lib/icons'
+import { REPO, SITE_URL, AUTHOR, CREDIT, INSTALL_SCRIPT, INSTALL_SCRIPT_WIN, COMMANDS, FEATURED, SHOWCASE } from '../site'
 import { ui, pluginCopy, LANGS, path, relPath, type Lang } from '../i18n/ui'
 import CommitDemo from './demos/commit.astro'
 import ReviewDemo from './demos/review.astro'
 import HandoffDemo from './demos/handoff.astro'
+import ContextDemo from './demos/context-meter.astro'
+import SubMeterDemo from './demos/sub-meter.astro'
 
 interface Props { lang: Lang }
 const { lang } = Astro.props
 const t = ui[lang]
-const demos: Record<string, any> = { commit: CommitDemo, review: ReviewDemo, handoff: HandoffDemo }
+const demos: Record<string, any> = { commit: CommitDemo, review: ReviewDemo, handoff: HandoffDemo, 'context-meter': ContextDemo }
 const base = (import.meta.env.BASE_URL || '/').replace(/\/$/, '')
 const glyph = glyphPath()
 const updated = pluginsUpdated()
 const data = { repo: REPO, installScript: INSTALL_SCRIPT, installScriptWin: INSTALL_SCRIPT_WIN, plugins: plugins.map(p => ({ name: p.name, displayName: p.displayName })) }
 const countLabel = (c: Record<string, number>) => (Object.keys(t.counts) as (keyof typeof t.counts)[])
   .filter(k => c[k]).map(k => `${c[k]} ${t.counts[k][c[k] > 1 ? 1 : 0]}`).join(', ')
-// The credit sentence, cut where the project and the author's name go so both can be links.
+const copyOf = (p: typeof plugins[number]) => pluginCopy[lang][p.name] ?? p.description
+const docsOf = (p: typeof plugins[number]) => lang === 'es' ? p.docsUrlEs : p.docsUrl
+const featured = plugins.find(p => p.name === FEATURED)!
+const showcase = SHOWCASE.map(n => plugins.find(p => p.name === n)).filter(Boolean) as typeof plugins
+const rest = plugins.filter(p => p.name !== FEATURED && !SHOWCASE.includes(p.name))
+// The arc of icons under the hero: the plugins, round and round.
+const ring = Array.from({ length: 96 }, (_, i) => plugins[i % plugins.length].name)
 const [creditBefore, creditAfter] = t.credits('%P%', '%N%').split('%P%')
 const [creditMid, creditEnd] = creditAfter.split('%N%')
+const other = (Object.keys(LANGS) as Lang[]).find(l => l !== lang)!
 ---
 <!doctype html>
 <html lang={lang}>
@@ -40,10 +51,12 @@ const [creditMid, creditEnd] = creditAfter.split('%N%')
   <meta property="og:title" content={t.title} />
   <meta property="og:description" content={t.description} />
   <meta name="twitter:card" content="summary" />
-  <meta name="color-scheme" content="dark" />
-  <meta name="theme-color" content="#0b0c0f" />
+  <meta name="color-scheme" content="light dark" />
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#121317" media="(prefers-color-scheme: dark)" />
   <link rel="icon" type="image/svg+xml" href={`${base}/favicon.svg`} />
   <meta name="generator" content={Astro.generator} />
+  <script is:inline>if (sessionStorage.getItem('ba-announce') === 'off') document.documentElement.classList.add('no-announce')</script>
 </head>
 <body>
   <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -54,105 +67,235 @@ const [creditMid, creditEnd] = creditAfter.split('%N%')
     </defs>
   </svg>
 
-  <main>
-    <nav class="langs" aria-label="Language">
-      {Object.entries(LANGS).map(([l, name]) => (
-        <a href={path(l as Lang)} hreflang={l} lang={l} aria-current={l === lang ? 'page' : undefined}>{l.toUpperCase()}<span class="sr">{' '}{name}</span></a>
-      ))}
-    </nav>
-    <header>
-      <div class="title">
-        <button type="button" class="glyph" id="glyph" aria-label={t.liftOff}>
-          <span class="glyph-body"><svg viewBox="0 0 12 10" aria-hidden="true"><path fill="url(#ag-grad)" d={glyph} /></svg></span>
-          <span class="glyph-shadow" aria-hidden="true"></span>
-        </button>
-        <h1>better<span class="ag">antigravity</span></h1>
-      </div>
-      <a class="updated" href={`${REPO}/commits/main/plugins`}>{t.updated} <time id="updated" datetime={updated}>{updated.slice(0, 10)}</time></a>
-      <p class="lede">{t.ledeA} <a href="https://antigravity.google/product/antigravity-cli">Antigravity CLI</a>, {t.ledeBy} <a href={AUTHOR.site}>{AUTHOR.name}</a>. {t.ledeFork} <a href={CREDIT.site}>{CREDIT.project}</a>, {t.ledeBy} <a href={CREDIT.authorUrl}>@{CREDIT.author}</a>.</p>
+  <a class="skip" href="#main">{lang === 'es' ? 'Saltar al contenido' : 'Skip to content'}</a>
 
-      <section class="install" aria-label={t.install}>
-        <p class="picks-head"><strong id="picks-label">{t.pickLabel}</strong><span class="count" id="picks-count"></span><button type="button" id="picks-all">{t.none}</button></p>
+  <header class="top">
+    <nav class="nav" aria-label="Main">
+      <a class="brand" href={path(lang)}>
+        <svg class="brand-glyph" viewBox="0 0 12 10" aria-hidden="true"><path fill="url(#ag-grad)" d={glyph} /></svg>
+        <span>better-antigravity</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#plugins">{t.nav.plugins}</a></li>
+        <li><a href="#sub-meter">Sub Meter</a></li>
+        <li><a href="#install">{t.nav.install}</a></li>
+        <li><a href={REPO}>GitHub</a></li>
+      </ul>
+      <div class="nav-end">
+        <a class="pill outline" href={REPO}><span>GitHub</span><Fragment set:html={icon('external', 'i sm')} /></a>
+        <a class="pill dark" href="#install"><span>{t.nav.install}</span><Fragment set:html={icon('download', 'i sm')} /></a>
+        <a class="lang" href={path(other)} hreflang={other} lang={other}><span class="lang-from" aria-hidden="true">{lang.toUpperCase()} /</span><span class="lang-to" aria-hidden="true">{other.toUpperCase()}</span><span class="sr">{LANGS[other]}</span></a>
+      </div>
+    </nav>
+    <div class="announce" id="announce">
+      <a href="#sub-meter" class="announce-link">
+        <span class="tag"><Fragment set:html={icon('spark', 'i xs')} />{t.announceTag}</span>
+        <span class="announce-text">{t.announce}</span>
+        <span class="announce-cta">{t.announceCta} <Fragment set:html={icon('arrow', 'i xs')} /></span>
+      </a>
+      <button type="button" class="announce-x" id="announce-x" aria-label={t.dismiss}><Fragment set:html={icon('close', 'i sm')} /></button>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero" aria-labelledby="hero-title">
+      <canvas class="field" data-field="hero" aria-hidden="true"></canvas>
+      <div class="hero-inner">
+        <button type="button" class="mark" id="glyph" aria-label={t.liftOff}>
+          <img class="mark-img" src={`${base}/brand/antigravity-mark.svg`} alt="" width="96" height="82" />
+          <span class="mark-shadow" aria-hidden="true"></span>
+        </button>
+        <a class="built" href="https://antigravity.google/product/antigravity-cli">
+          <span class="built-for">{t.builtFor}</span>
+          <img src={`${base}/brand/antigravity-mark.svg`} alt="" width="18" height="16" />
+          <span class="built-name">Google Antigravity CLI</span>
+          <Fragment set:html={icon('external', 'i xs')} />
+        </a>
+        <h1 id="hero-title" class="hero-title"><span>{t.heroTitle[0]}</span> <span>{t.heroTitle[1]}</span></h1>
+        <p class="hero-sub">{t.heroSub(plugins.length)}</p>
+        <div class="hero-cta">
+          <a class="pill tonal lg" href="#plugins">{t.seePlugins}</a>
+          <a class="pill dark lg" href="#install"><span>{t.nav.install}</span><Fragment set:html={icon('download', 'i sm')} /></a>
+        </div>
+        <p class="hero-meta">
+          <a class="updated" href={`${REPO}/commits/main/plugins`}><span class="live" aria-hidden="true"></span>{t.updated} <time id="updated" datetime={updated}>{updated.slice(0, 10)}</time></a>
+          <span class="sep" aria-hidden="true">·</span>
+          <span>{t.madeBy} <a href={AUTHOR.site}>{AUTHOR.name}</a></span>
+          <span class="sep" aria-hidden="true">·</span>
+          <span>{t.ideaBy} <a href={CREDIT.site}>{CREDIT.project}</a></span>
+        </p>
+      </div>
+    </section>
+
+    <div class="ring" aria-hidden="true">
+      <div class="ring-rotor">
+        {ring.map((n, i) => <span class="bubble" style={`--a:${(i * 360) / ring.length}deg`} set:html={icon(n)} />)}
+      </div>
+    </div>
+
+    <section class="statement wrap" aria-label="better-antigravity">
+      <p class="statement-text" id="statement">{t.statement}</p>
+      <p class="statement-lede">{t.ledeA} <a href="https://antigravity.google/product/antigravity-cli">Antigravity CLI</a>, {t.ledeBy} <a href={AUTHOR.site}>{AUTHOR.name}</a>. {t.ledeFork} <a href={CREDIT.site}>{CREDIT.project}</a>, {t.ledeBy} <a href={CREDIT.authorUrl}>@{CREDIT.author}</a>.</p>
+    </section>
+
+    <section class="feature wrap" id="sub-meter" aria-labelledby="feature-title">
+      <div class="feature-panel">
+        <canvas class="field" data-field="feature" aria-hidden="true"></canvas>
+        <div class="feature-copy">
+          <h2 id="feature-title">{t.featureTitle}</h2>
+          <p>{t.featureBody}</p>
+          <div class="feature-actions">
+            <button type="button" class="pill light" data-install={featured.name}><Fragment set:html={icon('copy', 'i sm')} /><span>{t.featureInstall}</span></button>
+            <a class="pill ghost" data-panel="docs" data-plugin={featured.name} href={docsOf(featured)}><span>{t.docs}</span><Fragment set:html={icon('arrow', 'i sm')} /></a>
+          </div>
+          <p class="feature-needs">{t.featureNeeds}</p>
+        </div>
+        <div class="feature-demo">
+          <SubMeterDemo lang={lang} />
+          <span class="example on-dark">{t.example}</span>
+          <label class="try">
+            <span>{t.featureTry}</span>
+            <input type="range" min="0" max="100" value="58" id="sm-range" />
+            <output id="sm-out" for="sm-range">58%</output>
+          </label>
+        </div>
+      </div>
+    </section>
+
+    <section class="explore wrap" id="plugins" aria-labelledby="explore-title">
+      <h2 id="explore-title" class="section-title">{t.exploreTitle}</h2>
+
+      <ul class="showcase">
+        {showcase.map(p => {
+          const Demo = demos[p.name]
+          return (
+            <li class="show" id={p.name}>
+              <div class="show-stage">{Demo && <Demo lang={lang} />}<span class="example">{t.example}</span></div>
+              <div class="show-copy">
+                <h3><span class="cmd">{COMMANDS[p.name]}</span> {p.displayName}</h3>
+                <p>{copyOf(p)}</p>
+                <ul class="links">
+                  <li><a data-panel="docs" data-plugin={p.name} href={docsOf(p)}><Fragment set:html={icon('doc', 'i sm')} />{t.docs}</a></li>
+                  <li><a data-panel="source" data-plugin={p.name} href={p.sourceUrl}><Fragment set:html={icon('code', 'i sm')} />{t.source}</a></li>
+                  <li><button type="button" data-install={p.name}><Fragment set:html={icon('copy', 'i sm')} />{t.install}</button></li>
+                </ul>
+              </div>
+            </li>
+          )
+        })}
+      </ul>
+
+      <ul class="grid">
+        {rest.map(p => (
+          <li class="cell" id={p.name}>
+            <span class="cell-icon" set:html={icon(p.name)} />
+            <h3>{p.displayName.replace(/\s*\(.\)$/, '')} <span class="cmd">{COMMANDS[p.name]}</span></h3>
+            <p>{copyOf(p)}</p>
+            <p class="version">v{p.version} · {countLabel(p.counts)}</p>
+            <ul class="links">
+              <li><a data-panel="docs" data-plugin={p.name} href={docsOf(p)}>{t.docs}</a></li>
+              <li><a data-panel="source" data-plugin={p.name} href={p.sourceUrl}>{t.source}</a></li>
+              <li><button type="button" data-install={p.name}>{t.install}</button></li>
+            </ul>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <section class="start wrap" id="install" aria-labelledby="start-title">
+      <h2 id="start-title" class="section-title">{t.startTitle}</h2>
+
+      <div class="picker">
+        <p class="picks-head"><strong id="picks-label">{t.pickLabel}</strong><span class="count" id="picks-count"></span><button type="button" id="picks-all" class="text-btn">{t.none}</button></p>
         <ul class="picks" role="group" aria-labelledby="picks-label">
-          {plugins.map(p => <li><button type="button" class="pick" data-plugin={p.name} aria-pressed="true">{p.displayName}</button></li>)}
+          {plugins.map(p => <li><button type="button" class="pick" data-plugin={p.name} aria-pressed="true"><Fragment set:html={icon('check', 'i xs tick')} />{p.displayName}</button></li>)}
         </ul>
+      </div>
+
+      <div class="console">
+        <div class="term big">
+          <div class="term-bar">
+            <i aria-hidden="true"></i><i aria-hidden="true"></i><i aria-hidden="true"></i>
+            <div class="os-tabs" role="tablist" aria-label="Operating system">
+              <button type="button" role="tab" class="os-tab" data-os="unix" aria-selected="true">{t.osUnix}</button>
+              <button type="button" role="tab" class="os-tab" data-os="win" aria-selected="false">{t.osWin}</button>
+            </div>
+          </div>
+          <div class="term-body">
+            <p class="line"><span class="prompt" aria-hidden="true">➜ </span><span class="dim" aria-hidden="true">~ </span><span class="cli" id="cli-cmd"></span><span class="caret" aria-hidden="true"></span></p>
+          </div>
+        </div>
         <div class="cta">
-          <button type="button" class="primary" id="copy-prompt">{t.copy}</button>
-          <button type="button" class="secondary" id="copy-cli">{t.copyCli}</button>
+          <button type="button" class="pill dark lg" id="copy-cli"><Fragment set:html={icon('copy', 'i sm')} /><span>{t.copyCli}</span></button>
+          <button type="button" class="pill tonal lg" id="copy-prompt"><span>{t.copy}</span></button>
           <span class="note">{t.note[0]} <code>agy</code>{t.note[1]}</span>
         </div>
-        <div class="os-tabs" role="tablist" aria-label="Operating system">
-          <button type="button" role="tab" class="os-tab" data-os="unix" aria-selected="true">{t.osUnix}</button>
-          <button type="button" role="tab" class="os-tab" data-os="win" aria-selected="false">{t.osWin}</button>
-        </div>
-        <pre class="cli-preview" id="cli-cmd"></pre>
-        <details>
-          <summary>{t.guideTitle}</summary>
-          <ol class="guide-list">
-            {t.guideSteps.map(step => <li>{step}</li>)}
-          </ol>
-        </details>
-        <details>
-          <summary>{t.whatCopies}</summary>
+        <details class="what">
+          <summary><span class="chev" aria-hidden="true"></span>{t.whatCopies}</summary>
           <pre class="preview" id="prompt"></pre>
         </details>
-      </section>
-    </header>
+      </div>
 
-    <ol class="plugins">
-      {plugins.map(p => {
-        const Demo = demos[p.name]
-        return (
-          <li class="plugin" id={p.name}>
-            <div class="meta">
-              <h2>{p.displayName}</h2>
-              <p class="version">v{p.version} · {countLabel(p.counts)}</p>
-              <ul class="links">
-                <li><a data-panel="source" data-plugin={p.name} href={p.sourceUrl}><span>{t.source}</span></a></li>
-                <li><a data-panel="docs" data-plugin={p.name} href={lang === 'es' ? p.docsUrlEs : p.docsUrl}><span>{t.docs}</span></a></li>
-                <li><button type="button" data-install={p.name}><span>{t.install}</span></button></li>
-              </ul>
-            </div>
-            <div class="body">
-              <p>{pluginCopy[lang][p.name] ?? p.description}</p>
-              {Demo && <Demo lang={lang} />}
-            </div>
-          </li>
-        )
-      })}
-    </ol>
+      <ol class="steps">
+        {t.guideSteps.map((step, i) => <li><h3>{t.stepTitles[i]}</h3><p>{step}</p></li>)}
+      </ol>
+    </section>
 
-    <footer>
-      <div class="foot-top">
-        <div class="brand">
-          <span class="mini" aria-hidden="true"><svg viewBox="0 0 12 10"><path fill="url(#ag-grad)" d={glyph} /></svg></span>
-          <div><b>better<span class="ag">antigravity</span></b><span>{t.tagline}</span></div>
-        </div>
-        <ul class="foot-links">
+    <section class="cta-panel wrap" aria-labelledby="cta-title">
+      <div class="cta-inner">
+        <canvas class="field" data-field="cta" aria-hidden="true"></canvas>
+        <h2 id="cta-title">{t.ctaTitle[0]}<br />{t.ctaTitle[1]}</h2>
+        <button type="button" class="pill light" id="cta-copy"><Fragment set:html={icon('copy', 'i sm')} /><span>{t.ctaButton}</span></button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap foot-top">
+      <div class="foot-lead">
+        <p class="foot-head">{t.footHead}</p>
+        <a class="built small" href="https://antigravity.google/">
+          <span class="built-for">{t.builtFor}</span>
+          <img src={`${base}/brand/antigravity-mark.svg`} alt="" width="16" height="14" />
+          <span class="built-name">Google Antigravity</span>
+        </a>
+      </div>
+      <div class="foot-col">
+        <h2>{t.nav.plugins}</h2>
+        <ul>{plugins.map(p => <li><a href={`#${p.name}`}>{p.displayName}</a></li>)}</ul>
+      </div>
+      <div class="foot-col">
+        <h2>{t.footProject}</h2>
+        <ul>
           <li><a href={REPO}>GitHub</a></li>
           <li><a href={`${REPO}/issues`}>{t.issues}</a></li>
-          <li><a href={AUTHOR.url}>{AUTHOR.name}</a></li>
+          <li><a href={`${REPO}/blob/main/LICENSE`}>{t.license_}</a></li>
+          <li><a href={AUTHOR.site}>{AUTHOR.name}</a></li>
+        </ul>
+        <h2>{t.footCredits}</h2>
+        <ul>
+          <li><a href={CREDIT.site}>{CREDIT.project}</a></li>
+          <li><a href={CREDIT.authorUrl}>@{CREDIT.author}</a></li>
         </ul>
       </div>
-
-      <p class="credit">
-        <strong>{t.creditsTitle}</strong> {creditBefore}<a href={CREDIT.site}>{CREDIT.project}</a>{creditMid}{CREDIT.authorName} (<a href={CREDIT.authorUrl}>@{CREDIT.author}</a>){creditEnd} (<a href={CREDIT.repo}>{t.source}</a>, MIT). {t.creditsTail}
-      </p>
-
+    </div>
+    <p class="wordmark wrap" aria-hidden="true"><span>better</span>antigravity</p>
+    <div class="wrap foot-notes">
+      <p class="credit"><strong>{t.creditsTitle}</strong> {creditBefore}<a href={CREDIT.site}>{CREDIT.project}</a>{creditMid}{CREDIT.authorName} (<a href={CREDIT.authorUrl}>@{CREDIT.author}</a>){creditEnd} (<a href={CREDIT.repo}>{t.source}</a>, MIT). {t.creditsTail}</p>
       <p class="legal"><strong>{t.legalTitle}</strong> {t.legal}</p>
-
-      <div class="foot-bottom">
-        <span>{t.license[0]} <a href={`${REPO}/blob/main/LICENSE`}>{t.license[1]}</a> · {AUTHOR.name} · {t.license[2]} <a href={CREDIT.site}>{CREDIT.project}</a> {t.license[3]} @{CREDIT.author}</span>
-      </div>
-    </footer>
-  </main>
+    </div>
+    <div class="wrap foot-bottom">
+      <span>{t.license[0]} <a href={`${REPO}/blob/main/LICENSE`}>{t.license[1]}</a> · {AUTHOR.name} · {t.license[2]} <a href={CREDIT.site}>{CREDIT.project}</a> {t.license[3]} @{CREDIT.author}</span>
+      <a class="lang" href={path(other)} hreflang={other} lang={other}>{LANGS[other]}</a>
+    </div>
+  </footer>
 
   <aside class="reader" id="reader" aria-labelledby="reader-name" inert>
     <header class="reader-head">
       <div class="reader-top">
         <h2 id="reader-title" tabindex="-1"><span id="reader-name"></span><span class="reader-path" id="reader-path"></span></h2>
-        <a class="reader-out" id="reader-out" href={REPO} target="_blank" rel="noopener">GitHub ↗</a>
-        <button type="button" class="reader-close" id="reader-close" aria-label={t.close}>✕</button>
+        <a class="reader-out" id="reader-out" href={REPO} target="_blank" rel="noopener">GitHub <Fragment set:html={icon('external', 'i xs')} /></a>
+        <button type="button" class="reader-close" id="reader-close" aria-label={t.close}><Fragment set:html={icon('close', 'i sm')} /></button>
       </div>
       <div class="reader-tabs" role="tablist" aria-label={t.view}>
         <button type="button" role="tab" id="tab-docs" data-tab="docs" aria-controls="reader-body" aria-selected="true">{t.docs}</button>

@@ -14,7 +14,7 @@ export interface Plugin {
   suggestedPrompts: string[]
   readmeHtml: Record<'en' | 'es', string>
   files: PluginFile[]
-  counts: { skills: number, agents: number, rules: number, mcp: number, hooks: number }
+  counts: { skills: number, agents: number, rules: number, mcp: number, hooks: number, statusline: number }
   sourceUrl: string
   docsUrl: string
   docsUrlEs: string
@@ -58,6 +58,7 @@ export const plugins: Plugin[] = [...byPlugin.entries()]
         rules: files.filter(f => /^rules\/[^/]+\.md$/.test(f.path)).length,
         mcp: files.some(f => f.path === 'mcp_config.json') ? Object.keys(JSON.parse(files.find(f => f.path === 'mcp_config.json')!.content).mcpServers ?? {}).length : 0,
         hooks: files.some(f => f.path === 'hooks.json') ? 1 : 0,
+        statusline: files.some(f => f.path === 'scripts/statusline.py') ? 1 : 0,
       },
       sourceUrl: `${REPO}/tree/${BRANCH}/plugins/${name}`,
       docsUrl: `${REPO}/blob/${BRANCH}/plugins/${name}/README.md`,
